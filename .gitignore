@@ -1,0 +1,71 @@
+### .NET / Visual Studio ###
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+[Ll]ogs/
+*.user
+*.suo
+*.cache
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.vscode/
+*.dbmdl
+*.bak
+*.backup
+*.swp
+*.tmp
+
+# Visual Studio config
+.vs/
+.vscode/
+
+# Test results
+TestResult*/
+*.VisualState.xml
+*.coverage
+*.coveragexml
+
+# NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+*.psmdcp
+.nuget/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Rider / IntelliJ
+.idea/
+*.iml
+out/
+
+# JetBrains específicas
+**/.idea/
+shelf/
+workspace.xml
+tasks.xml
+dataSources/
+dataSources.local.xml
+httpRequests/
+modules.xml
+contentModel.xml
+projectSettingsUpdater.xml
+
+# Rider NuGet restore info
+*.restore.info
+
+# Rider profiler
+*.hprof
+
+# Outros
+*.DS_Store
+Thumbs.db

@@ -1,0 +1,7 @@
+﻿services:
+  espaco-seguro-api:
+    image: espaco-seguro-api
+    build:
+      context: .
+      dockerfile: espaco-seguro-api/Dockerfile
+
