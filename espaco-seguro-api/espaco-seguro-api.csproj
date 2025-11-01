@@ -25,9 +25,11 @@
     </ItemGroup>
 
     <ItemGroup>
-	  <Folder Include="1 - Presentation\" />
-      <Folder Include="2 - Domain\" />
-	  <Folder Include="3 - Interfaces\" />
+	  <Folder Include="1 - Presentation\Controller\" />
+	  <Folder Include="2 - Application\ViewModel\" />
+      <Folder Include="3 - Domain\Interfaces\" />
+      <Folder Include="3 - Domain\Service\" />
+      <Folder Include="4 - Data\Repository\" />
     </ItemGroup>
 
 </Project>
