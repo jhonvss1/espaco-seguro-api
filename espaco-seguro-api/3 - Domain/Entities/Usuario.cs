@@ -34,17 +34,17 @@ public class Usuario
     public string? Telefone  { get; set; }
 
     [Column("funcao")] 
-    public FuncaoEnum Funcao { get; set; } = FuncaoEnum.Usuario; 
+    public FuncaoEnum? Funcao { get; set; } = FuncaoEnum.Usuario; 
     
     [Column("status")]
     public StatusUsuario StatusUsuario { get; set; } = StatusUsuario.Pendente;
     
     [MaxLength(500)]
     [Column("foto")]
-    public string Foto { get; set; }
+    public string? Foto { get; set; }
     
     [Column("aceitou_termos")]
-    public bool AceitouTermos { get; set; } = false;
+    public bool? AceitouTermos { get; set; } = false;
     
     [Column("data_aceite_termos")]
     public DateTime? DataAceiteTermos { get; set; } = DateTime.UtcNow;

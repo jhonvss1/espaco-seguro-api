@@ -6,8 +6,8 @@ namespace espaco_seguro_api._3___Domain.Interfaces.Services;
 public interface IUsuarioService
 {
     Task<Usuario> Criar(Usuario usuario);
-    Task<Usuario> Atualizar(Usuario usuario);
-    Task<List<UsuarioResponse>> ObterTodosUsuarios();
-    Task<UsuarioResponse> ObterPorId(Guid id);
+    Task<Usuario> Atualizar(Usuario usuario, Guid id);
+    Task<List<Usuario>> ObterTodosUsuarios();
+    Task<Usuario> ObterPorId(Guid id);
     Task<Usuario> Deletar(Guid id);
 }

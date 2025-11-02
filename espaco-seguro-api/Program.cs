@@ -1,4 +1,6 @@
-using espaco_seguro_api._2___Application.Service;
+using espaco_seguro_api._2___Application.ServiceApp;
+using espaco_seguro_api._2___Application.ServiceApp.IServiceApp;
+using espaco_seguro_api._3___Domain.Exceptions;
 using espaco_seguro_api._3___Domain.Interfaces.Repositories;
 using espaco_seguro_api._3___Domain.Interfaces.Services;
 using espaco_seguro_api._3___Domain.Services;
@@ -6,7 +8,6 @@ using espaco_seguro_api._4___Data;
 using espaco_seguro_api._4___Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -49,7 +50,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
-builder.Services.AddScoped<UsuarioServiceApp>();
+builder.Services.AddScoped<IUsuarioServiceApp, UsuarioServiceApp>();
 
 var app = builder.Build();
 
@@ -68,6 +69,17 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
 }
+
+app.Use(async (ctx, next) =>
+{
+    try { await next(); }
+    catch (DomainValidationException ex)
+    {
+        ctx.Response.StatusCode = StatusCodes.Status400BadRequest;
+        await ctx.Response.WriteAsJsonAsync(new { title = "Falha de validação", error = ex.Message });
+    }
+});
+
 
 app.UseHttpsRedirection();
 

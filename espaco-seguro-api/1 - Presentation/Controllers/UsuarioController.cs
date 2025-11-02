@@ -1,6 +1,6 @@
-using espaco_seguro_api._2___Application.Mappers;
 using espaco_seguro_api._2___Application.Request;
-using espaco_seguro_api._2___Application.Service;
+using espaco_seguro_api._2___Application.ServiceApp;
+using espaco_seguro_api._2___Application.ServiceApp.IServiceApp;
 using espaco_seguro_api._2___Application.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,16 +8,19 @@ namespace espaco_seguro_api._1___Presentation.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UsuarioController(UsuarioServiceApp serviceApp) : ControllerBase
+public class UsuarioController(IUsuarioServiceApp serviceApp) : ControllerBase
 {
-    private UsuarioServiceApp _serviceApp = serviceApp;
+    private IUsuarioServiceApp serviceApp = serviceApp;
 
     [HttpPost("criar")]
-    public ActionResult<UsuarioResponse> Criar([FromBody] UsuarioRequestVm usuario)
+    public async Task<ActionResult<UsuarioResponse>> Criar([FromBody] UsuarioRequestVm usuario)
     {
         try
         {
-            var usuarioCriado = _serviceApp.CriarUsuario(usuario);
+            if (usuario is null)
+                NoContent();
+            
+            var usuarioCriado = await serviceApp.Criar(usuario);
             return Created();
         }
         catch (Exception ex)
@@ -25,6 +28,36 @@ public class UsuarioController(UsuarioServiceApp serviceApp) : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    
+
+    [HttpGet("obter/{id:guid}")]
+    public async Task<ActionResult<UsuarioResponse>> ObterPorId(Guid id)
+    {
+        try
+        {
+            if (id.Equals(Guid.Empty))
+                NoContent();
+            
+            return await serviceApp.ObterPorId(id);
+        }
+        catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPut("atualizar")]
+    public async Task<ActionResult<UsuarioResponse>> Atualizar(Guid id, [FromBody] UsuarioRequestVm usuario)
+    {
+        try
+        {
+            await serviceApp.Atualizar(usuario, id);
+            return Created();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        
+    }
     
 }

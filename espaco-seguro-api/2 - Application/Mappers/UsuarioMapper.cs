@@ -10,13 +10,6 @@ public class UsuarioMapper
 {
     public static Usuario ParaEntidade(UsuarioRequestVm usuarioRequestVm)
     {
-
-        if (string.IsNullOrEmpty(usuarioRequestVm.Senha))
-            throw new Exception("É obrigatório informar a senha");
-        
-        if(usuarioRequestVm.AceitouTermos != true)
-            throw new Exception("É obrigatório aceitar os termos");
-        
         var usuarioEntidadeDominio = new Usuario
         {
             Id = Guid.NewGuid(),
@@ -27,6 +20,7 @@ public class UsuarioMapper
             Cpf = usuarioRequestVm.Cpf,
             AceitouTermos = usuarioRequestVm.AceitouTermos,
             Funcao = usuarioRequestVm.Funcao,
+            Foto =  usuarioRequestVm.Foto,
             StatusUsuario = StatusUsuario.Pendente,
             DataAceiteTermos = DateTime.UtcNow,
             DataRegistro = DateTime.UtcNow,

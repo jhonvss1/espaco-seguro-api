@@ -1,42 +1,37 @@
+using espaco_seguro_api._2___Application.Mappers;
 using espaco_seguro_api._2___Application.ViewModels;
 using espaco_seguro_api._3___Domain.Entities;
+using espaco_seguro_api._3___Domain.Exceptions;
 using espaco_seguro_api._3___Domain.Interfaces;
 using espaco_seguro_api._3___Domain.Interfaces.Repositories;
 using espaco_seguro_api._3___Domain.Interfaces.Services;
 
 namespace espaco_seguro_api._3___Domain.Services;
 
-public class UsuarioService(IUsuarioRepository usuarioRepository): IUsuarioService
+public class UsuarioService(IUsuarioRepository usuarioRepository) : IUsuarioService
 {
-    
     public async Task<Usuario> Criar(Usuario usuario)
     {
-        try
-        {
-            if (usuario == null)
-                throw new ArgumentNullException();
-            
-            return await usuarioRepository.Criar(usuario);
-        }
-        catch (Exception ex)
-        {
-            throw new ArgumentException("Não foi possível criar um novo usuário", ex);
-        }
+        if((bool)(!usuario.AceitouTermos)!) throw new DomainValidationException("É necessário aceitar os termos.");
+        return await usuarioRepository.Criar(usuario);
     }
 
-    public Task<Usuario> Atualizar(Usuario usuario)
+    public async Task<Usuario> Atualizar(Usuario usuario, Guid id)
+    {
+        await usuarioRepository.Atualizar(usuario, id);
+        var usuarioAtualizado = await usuarioRepository.ObterPorId(id);
+        return usuarioAtualizado;
+    }
+
+    public Task<List<Usuario>> ObterTodosUsuarios()
     {
         throw new NotImplementedException();
     }
 
-    public Task<List<UsuarioResponse>> ObterTodosUsuarios()
+    public async Task<Usuario> ObterPorId(Guid id)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<UsuarioResponse> ObterPorId(Guid id)
-    {
-        throw new NotImplementedException();
+        var usuario = await usuarioRepository.ObterPorId(id);
+        return usuario;
     }
 
     public Task<Usuario> Deletar(Guid id)
