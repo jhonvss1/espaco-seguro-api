@@ -4,6 +4,7 @@ using espaco_seguro_api._3___Domain.Chat;
 
 namespace espaco_seguro_api._3___Domain.Entities;
 
+[Table("mensagem_chat")]
 public class MensagemChat
 {
     [Key]

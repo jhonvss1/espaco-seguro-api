@@ -1,19 +1,77 @@
+using espaco_seguro_api._2___Application.Service;
+using espaco_seguro_api._3___Domain.Interfaces.Repositories;
+using espaco_seguro_api._3___Domain.Interfaces.Services;
+using espaco_seguro_api._3___Domain.Services;
+using espaco_seguro_api._4___Data;
+using espaco_seguro_api._4___Data.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(opt =>
+{
+    // Doc principal
+    opt.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Espaço Seguro API",
+        Version = "v1",
+        Description = "API do Espaço Seguro"
+    });
+
+    // // JWT Bearer
+    // var securityScheme = new OpenApiSecurityScheme
+    // {
+    //     Name = "Authorization",
+    //     Description = "Informe o token JWT: Bearer {seu_token}",
+    //     In = ParameterLocation.Header,
+    //     Type = SecuritySchemeType.Http,
+    //     Scheme = "bearer",
+    //     BearerFormat = "JWT",
+    //     Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+    // };
+    // opt.AddSecurityDefinition("Bearer", securityScheme);
+    // opt.AddSecurityRequirement(new OpenApiSecurityRequirement
+    // {
+    //     [securityScheme] = new string[] {}
+    // });
+    
+});
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContext<AppDbContext>(options => 
+    options.UseNpgsql(builder.Configuration.GetConnectionString("ConexaoPadrao")));
+
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<UsuarioServiceApp>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(ui =>
+    {
+        ui.SwaggerEndpoint("/swagger/v1/swagger.json", "Espaço Seguro API v1");
+    });
+}
+
+// aplica as migrations automaticamente quando sobe o container docker
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
 }
 
 app.UseHttpsRedirection();
+
+// Mapeia os controllers (necessário para aparecer no Swagger)
+app.MapControllers();
 
 app.Run();

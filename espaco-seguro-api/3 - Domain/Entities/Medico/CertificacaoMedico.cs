@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace espaco_seguro_api._3___Domain.Entities;
-
+[Table("certificacao_medico")]
 public class CertificacaoMedico
 {
     [Key]
@@ -32,7 +32,7 @@ public class CertificacaoMedico
     public DateTime? DataValidade { get; set; }
 
     [MaxLength(20)] [Column("status")] 
-    public StatusCertificacao Status { get; set; } = StatusCertificacao.Pendente;
+    public StatusCertificacao StatusCertificacao { get; set; } = StatusCertificacao.Pendente;
 
     [Column("data_registro")]
     public DateTime DataRegistro { get; set; } = DateTime.UtcNow;

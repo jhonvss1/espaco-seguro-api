@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace espaco_seguro_api._3___Domain.Entities;
 
+[Table("fonte_card")]
 public class FonteCard
 {
     [Key]

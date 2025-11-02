@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace espaco_seguro_api._3___Domain.Entities;
-
+[Table("medico")]
 public class Medico
 {
     [Key]
@@ -25,7 +25,7 @@ public class Medico
     public string Especialidade { get; set; }
     
     [Column("status_verificacao")]
-    public StatusMedico StatusVerificacao { get; set; } = StatusMedico.Pendente;
+    public StatusMedico StatusMedico { get; set; } = StatusMedico.Pendente;
     
     [MaxLength(255)]
     [Column("observacoes")]

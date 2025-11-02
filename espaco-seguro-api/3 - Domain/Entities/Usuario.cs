@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace espaco_seguro_api._3___Domain.Entities;
 
+[Table("usuario")]
 public class Usuario
 {
     [Key] 
@@ -15,14 +16,14 @@ public class Usuario
     
     [Required, MaxLength(255)]
     [Column("senha_hash")]
-    public string SenhaHash { get; set; }
+    public string? SenhaHash { get; set; }
     
     [Required, MaxLength(150)]
     [Column("nome")]
     public string Nome { get; set; }
     
     [Column("data_nascimento")]
-    public DateTime DataNascimento { get; set; }
+    public DateOnly? DataNascimento { get; set; }
     
     [MaxLength(11)]
     [Column("cpf")]
@@ -46,7 +47,7 @@ public class Usuario
     public bool AceitouTermos { get; set; } = false;
     
     [Column("data_aceite_termos")]
-    public DateTime? DataAceiteTermos { get; set; }
+    public DateTime? DataAceiteTermos { get; set; } = DateTime.UtcNow;
     
     [Column("data_registro")]
     public DateTime DataRegistro { get; set; } = DateTime.UtcNow;
@@ -54,7 +55,8 @@ public class Usuario
     [Column("data_atualizacao")]
     public DateTime DataAtualizacao { get; set; } = DateTime.UtcNow;
     
-    public DateTime? UltimoAcesso { get; set; }
+    [Column("ultimo_acesso")]
+    public DateTime? UltimoAcesso { get; set; } = DateTime.UtcNow;
     
     //Navegação
     public virtual ICollection<ConteudoCard> Cartoes { get; set; } = new  List<ConteudoCard>();

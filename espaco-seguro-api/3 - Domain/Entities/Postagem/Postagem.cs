@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace espaco_seguro_api._3___Domain.Entities;
 
+[Table("postagem")]
 public class Postagem
 {
     [Key]
@@ -20,7 +21,8 @@ public class Postagem
     [Column("anonimo")]
     public bool Anonimo { get; set; } = false;
 
-    [MaxLength(20)] public StatusPostagem Status { get; set; } = StatusPostagem.Rascunho;  //"draft"; // draft, published, removed, flagged
+    [MaxLength(20)] 
+    public StatusPostagem StatusPostagem { get; set; } = StatusPostagem.Rascunho; 
 
     [Column(TypeName = "jsonb")]
     public string Tags { get; set; }

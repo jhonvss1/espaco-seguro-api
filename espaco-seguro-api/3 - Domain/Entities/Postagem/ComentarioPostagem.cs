@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace espaco_seguro_api._3___Domain.Entities;
 
+[Table("comentario_postagem")]
 public class ComentarioPostagem
 {
     [Key]
@@ -26,7 +27,7 @@ public class ComentarioPostagem
 
     [MaxLength(20)]
     [Column("status")]
-    public StatusComentarioPostagem Status { get; set; } = StatusComentarioPostagem.Publicado; 
+    public StatusComentarioPostagem StatusComentarioPostagem { get; set; } = StatusComentarioPostagem.Publicado; 
 
     [Column("contagem_curtidas")]
     public int ContagemCurtidas { get; set; } = 0;

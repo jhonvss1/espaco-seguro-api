@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace espaco_seguro_api._3___Domain.Entities;
 
+[Table("verificacao_card")]
 public class VerificacaoCard
 {
     [Key]
@@ -35,8 +36,8 @@ public class VerificacaoCard
     [Column("observacoes")]
     public string Observacoes { get; set; }
 
-    [Column("resultado")]
-    [MaxLength(20)] public StatusVerificacaoCard Resultado { get; set; } = StatusVerificacaoCard.PrecisaRevisao;
+    [Column("status_verificacao_card")]
+    [MaxLength(20)] public StatusVerificacaoCard StatusVerificacaoCard { get; set; } = StatusVerificacaoCard.PrecisaRevisao;
 
     [Column("data_atualizacao")]
     public DateTime DataAtualizacao { get; set; } = DateTime.UtcNow;

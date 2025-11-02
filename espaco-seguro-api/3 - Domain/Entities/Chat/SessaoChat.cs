@@ -4,6 +4,7 @@ using espaco_seguro_api._3___Domain.Chat;
 
 namespace espaco_seguro_api._3___Domain.Entities;
 
+[Table("sessao_chat")]
 public class SessaoChat
 {
     [Key]
@@ -18,7 +19,7 @@ public class SessaoChat
     
     [Column("status")]
     [MaxLength(30)]
-    public StatusChat Status { get; set; }
+    public StatusChat StatusChat { get; set; }
     
     [Column("tipo_chat")]
     [MaxLength(30)]
