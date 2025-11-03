@@ -67,7 +67,7 @@ public class UsuarioServiceApp(IUsuarioService usuarioService) : IUsuarioService
         }
         catch (Exception ex)
         {
-            throw new ArgumentException("");
+            throw new ArgumentException("Erro ao atualizar card.");
         }
     }
 
