@@ -1,6 +1,7 @@
 ﻿using espaco_seguro_api._2___Application.Mappers;
 using espaco_seguro_api._2___Application.Request;
 using espaco_seguro_api._2___Application.Response;
+using espaco_seguro_api._2___Application.ServiceApp.IServiceApp;
 using espaco_seguro_api._3___Domain.Interfaces.Services;
 
 namespace espaco_seguro_api._2___Application.ServiceApp
@@ -56,6 +57,16 @@ namespace espaco_seguro_api._2___Application.ServiceApp
             {
                 throw new ArgumentException("Erro ao atualizar card.");
             }         
+        }
+
+        public Task<List<CardResponse>> ObterTodos()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<CardResponse> Remover(Guid id)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<CardResponse> Deletar(Guid id)

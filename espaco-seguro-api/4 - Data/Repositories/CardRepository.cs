@@ -1,4 +1,6 @@
 ﻿using espaco_seguro_api._3___Domain.Entities;
+using espaco_seguro_api._3___Domain.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace espaco_seguro_api._4___Data.Repositories
 {
@@ -8,19 +10,22 @@ namespace espaco_seguro_api._4___Data.Repositories
 
         public async Task<ConteudoCard> Criar(ConteudoCard card)
         {
-            await _context.Cards.AddAsync(card);
+            await _context.ConteudoCards.AddAsync(card);
             await _context.SaveChangesAsync();
             return card;
         }
 
         public async Task<ConteudoCard> Atualizar(ConteudoCard card, Guid id)
         {
-           var existente = await _context.Cards.FirstOrDefaultAsync(x => x.Id == id);
+           var existente = await _context.ConteudoCards.FirstOrDefaultAsync(x => x.Id == id);
             if (existente is null)
                 throw new KeyNotFoundException("Card não encontrado para atualização.");
 
             var entry = _context.Entry(existente);
-            AtualizaCamposPreenchidos(card, existente, entry);
+
+            var teste = new Helpers.Helpers();
+            
+            // AtualizaCamposPreenchidos(card, existente, entry); aqui tem que ser um metodo que atualiza as entidades proprias do card
 
             await _context.SaveChangesAsync();
             return existente;
@@ -40,8 +45,9 @@ namespace espaco_seguro_api._4___Data.Repositories
 
         public async Task<ConteudoCard> Remover(Guid id)
         {
-            var card = await _context.Cards.FirstOrDefaultAsync(c => c.Id == id);
-            _context.Cards.Remove(card);
+            var card = await _context.ConteudoCards.FirstOrDefaultAsync(c => c.Id == id);
+            _context.ConteudoCards.Remove(card);
+            
             await _context.SaveChangesAsync();
             return card;
         }

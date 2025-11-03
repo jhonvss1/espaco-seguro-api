@@ -1,4 +1,5 @@
-﻿using espaco_seguro_api._2___Application.ServiceApp.IServiceApp;
+﻿using espaco_seguro_api._2___Application.Request;
+using espaco_seguro_api._2___Application.ServiceApp.IServiceApp;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
