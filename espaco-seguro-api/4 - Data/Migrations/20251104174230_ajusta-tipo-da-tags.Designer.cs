@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using espaco_seguro_api._4___Data;
@@ -11,9 +12,11 @@ using espaco_seguro_api._4___Data;
 namespace espaco_seguro_api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251104174230_ajusta-tipo-da-tags")]
+    partial class ajustatipodatags
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -444,18 +447,23 @@ namespace espaco_seguro_api.Migrations
                     b.Property<string>("StatusPostagem")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
-                        .HasColumnName("status_postagem");
+                        .HasColumnType("character varying(30)");
 
                     b.PrimitiveCollection<string[]>("Tags")
-                        .HasColumnType("text[]")
-                        .HasColumnName("tags");
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("autor_id")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AutorId");
+                    b.HasIndex("autor_id");
 
-                    b.ToTable("postagem");
+                    b.ToTable("postagem", t =>
+                        {
+                            t.Property("autor_id")
+                                .HasColumnName("autor_id1");
+                        });
                 });
 
             modelBuilder.Entity("espaco_seguro_api._3___Domain.Entities.SessaoChat", b =>
@@ -746,7 +754,7 @@ namespace espaco_seguro_api.Migrations
                 {
                     b.HasOne("espaco_seguro_api._3___Domain.Entities.Usuario", "Autor")
                         .WithMany("Postagens")
-                        .HasForeignKey("AutorId")
+                        .HasForeignKey("autor_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

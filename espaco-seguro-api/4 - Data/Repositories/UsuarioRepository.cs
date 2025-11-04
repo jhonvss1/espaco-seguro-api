@@ -7,52 +7,49 @@ namespace espaco_seguro_api._4___Data.Repositories;
 
 public class UsuarioRepository(AppDbContext context) : IUsuarioRepository
 {
-    private readonly AppDbContext _context = context;
-    
-
     public async Task<Usuario> Criar(Usuario usuario)
     {
-        await _context.Usuarios.AddAsync(usuario);
-        await _context.SaveChangesAsync();
+        await context.Usuarios.AddAsync(usuario);
+        await context.SaveChangesAsync();
         return usuario;
     }
 
     public async Task<Usuario> Atualizar(Usuario usuario, Guid id)
 {
-    var existente = await _context.Usuarios.FirstOrDefaultAsync(x => x.Id == id);
+    var existente = await context.Usuarios.FirstOrDefaultAsync(x => x.Id == id);
     if (existente is null)
         throw new KeyNotFoundException("Usuário não encontrado para atualização.");
     
-    var entry = _context.Entry(existente);
+    var entry = context.Entry(existente);
 
     AtualizaCamposPreenchidosUsuario(usuario, existente, entry);
 
-    await _context.SaveChangesAsync();
+    await context.SaveChangesAsync();
     return existente;
 }
 
 
     public async Task<Usuario> ObterPorId(Guid id)
     {
-        var usuario = await _context.Usuarios.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
+        var usuario = await context.Usuarios.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
         return usuario;
     }
 
     public async Task<List<Usuario>> ObterTodos()
     {
-        var usuarios = await _context.Usuarios.AsNoTracking().ToListAsync();
+        var usuarios = await context.Usuarios.AsNoTracking().ToListAsync();
         return usuarios;
     }
 
     public async Task<Usuario> Deletar(Guid id)
     {
-    var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Id == id);
-    _context.Usuarios.Remove(usuario);
-    await _context.SaveChangesAsync();
+    var usuario = await context.Usuarios.FirstOrDefaultAsync(u => u.Id == id);
+    context.Usuarios.Remove(usuario);
+    await context.SaveChangesAsync();
         return usuario;
     }
 
-    public void AtualizaCamposPreenchidosUsuario(Usuario usuario, Usuario existente, EntityEntry<Usuario> entry)
+    private void AtualizaCamposPreenchidosUsuario(Usuario usuario, Usuario existente, EntityEntry<Usuario> entry)
     {
         if (!string.IsNullOrWhiteSpace(usuario.Email))
         {

@@ -55,9 +55,9 @@ public class UsuarioMapper
         };
         return usuarioVm;
     }
-    public static List<UsuarioResponse> ParaResponseEmLista(List<Usuario> usuariosVm)
+    public static List<UsuarioResponse> ParaResponseEmLista(List<Usuario> usuarios)
     {
-        return usuariosVm.Select(usuario => new UsuarioResponse
+        return usuarios.Select(usuario => new UsuarioResponse
         {
             Id = usuario.Id,
             Nome = usuario.Nome,

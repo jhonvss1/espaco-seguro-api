@@ -43,6 +43,20 @@ namespace espaco_seguro_api._1___Presentation.Controllers
             }
         }
 
+        [HttpGet("obter-todos")]
+        public async Task<ActionResult> ObterTodosCards()
+        {
+            try
+            {
+                var cards = await _cardServiceApp.ObterTodos();
+                return Ok(cards);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        
         [HttpPut("atualizar/{id:guid}")]
         public async Task<ActionResult> Atualizar(Guid id, [FromBody] CardResquestVm cardResquestVm)
         {
@@ -56,7 +70,7 @@ namespace espaco_seguro_api._1___Presentation.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        
         [HttpDelete("deletar/{id:guid}")]
         public async Task<ActionResult> Deletar(Guid id)
         {
@@ -71,18 +85,5 @@ namespace espaco_seguro_api._1___Presentation.Controllers
             }
         }
 
-        [HttpGet("obter-todos")]
-        public async Task<ActionResult> ObterTodosCards()
-        {
-            try
-            {
-                var cards = await _cardServiceApp.ObterTodos();
-                return Ok(cards);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
     }
 }

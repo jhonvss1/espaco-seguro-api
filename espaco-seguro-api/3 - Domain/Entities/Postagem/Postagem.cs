@@ -22,10 +22,10 @@ public class Postagem
     public bool Anonimo { get; set; } = false;
 
     [MaxLength(20)] 
+    [Column("status_postagem")]
     public StatusPostagem StatusPostagem { get; set; } = StatusPostagem.Rascunho; 
-
-    [Column(TypeName = "jsonb")]
-    public string Tags { get; set; }
+    [Column("tags")]
+    public string[]? Tags { get; set; }
 
     [Column("contagem_curtidas")]
     public int ContagemCurtidas { get; set; } = 0;
@@ -34,16 +34,16 @@ public class Postagem
     public int ContagemComentarios { get; set; } = 0;
 
     [Column("data_publicacao")]
-    public DateTime? PublicadoEm { get; set; }
+    public DateTime DataPublicacao { get; set; }
     
     [Column("data_registro")]
     public DateTime DataRegistro { get; set; } = DateTime.UtcNow;
 
     [Column("data_atualizacao")]
-    public DateTime DataAtualizacao { get; set; } = DateTime.UtcNow;
+    public DateTime? DataAtualizacao { get; set; } = DateTime.UtcNow;
     
     //Navegação
-    [ForeignKey("autor_id")]
+     [ForeignKey(nameof(AutorId))]
     public virtual Usuario Autor { get; set; }
     
     public virtual ICollection<ComentarioPostagem> Comentarios { get; set; }

@@ -55,6 +55,9 @@ builder.Services.AddScoped<IUsuarioServiceApp, UsuarioServiceApp>();
 builder.Services.AddScoped<ICardRepository, CardRepository>();
 builder.Services.AddScoped<ICardService, CardService>();
 builder.Services.AddScoped<ICardServiceApp, CardServiceApp>();
+builder.Services.AddScoped<IPostagemRepository, PostagemRepository>();
+builder.Services.AddScoped<IPostagemService, PostagemService>();
+builder.Services.AddScoped<IPostagemServiceApp, PostagemServiceApp>();
 
 builder.Services.AddScoped<Helpers>();
 

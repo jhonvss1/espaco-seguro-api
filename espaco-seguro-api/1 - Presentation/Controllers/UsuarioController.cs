@@ -8,9 +8,9 @@ namespace espaco_seguro_api._1___Presentation.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UsuarioController(IUsuarioServiceApp serviceApp) : ControllerBase
+public class UsuarioController(IUsuarioServiceApp usuarioServiceApp) : ControllerBase
 {
-    private IUsuarioServiceApp serviceApp = serviceApp;
+    private IUsuarioServiceApp usuarioServiceApp = usuarioServiceApp;
 
     [HttpPost("criar")]
     public async Task<ActionResult<UsuarioResponse>> Criar([FromBody] UsuarioRequestVm usuario)
@@ -20,7 +20,7 @@ public class UsuarioController(IUsuarioServiceApp serviceApp) : ControllerBase
             if (usuario is null)
                 NoContent();
             
-            await serviceApp.Criar(usuario);
+            await usuarioServiceApp.Criar(usuario);
             
             return Created();
         }
@@ -38,23 +38,9 @@ public class UsuarioController(IUsuarioServiceApp serviceApp) : ControllerBase
             if (id.Equals(Guid.Empty))
                 NoContent();
             
-            return await serviceApp.ObterPorId(id);
+            return await usuarioServiceApp.ObterPorId(id);
         }
         catch(Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-
-    [HttpPut("atualizar{id:guid}")]
-    public async Task<ActionResult<UsuarioResponse>> Atualizar(Guid id, [FromBody] UsuarioRequestVm usuario)
-    {
-        try
-        {
-            await serviceApp.Atualizar(usuario, id);
-            return Ok("Dados do usuário atualizado com sucesso.");
-        }
-        catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
@@ -65,7 +51,7 @@ public class UsuarioController(IUsuarioServiceApp serviceApp) : ControllerBase
     {
         try
         {
-            var usuarios = await serviceApp.ObterTodos();
+            var usuarios = await usuarioServiceApp.ObterTodos();
             
             return Ok(usuarios);
         }
@@ -75,12 +61,27 @@ public class UsuarioController(IUsuarioServiceApp serviceApp) : ControllerBase
         }
     }
 
+    
+    [HttpPut("atualizar{id:guid}")]
+    public async Task<ActionResult<UsuarioResponse>> Atualizar(Guid id, [FromBody] UsuarioRequestVm usuario)
+    {
+        try
+        {
+            await usuarioServiceApp.Atualizar(usuario, id);
+            return Ok("Dados do usuário atualizado com sucesso.");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    
     [HttpDelete("remover/{id:guid}")]
     public async Task<ActionResult> Remover(Guid id)
     {
         try
         {
-            await serviceApp.Remover(id);
+            await usuarioServiceApp.Remover(id);
             return NoContent();
         }
         catch (Exception ex)

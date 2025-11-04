@@ -1,12 +1,12 @@
 ﻿using espaco_seguro_api._3___Domain.Entities;
 
-namespace espaco_seguro_api._3___Domain.Interfaces.Repositories;
+namespace espaco_seguro_api._3___Domain.Interfaces.Services;
 
-public interface IPostagemRepository
+public interface IPostagemService
 {
     Task<Postagem> Criar(Postagem postagem);
     Task<Postagem> Atualizar(Postagem postagem, Guid id);
-    Task<Postagem> ObterPorId(Guid id);
     Task<List<Postagem>> ObterTodasPostagens();
-    Task<Postagem> Remover(Guid id);
+    Task<Postagem> ObterPorId(Guid id);
+    Task<Postagem> Deletar(Guid id);
 }
