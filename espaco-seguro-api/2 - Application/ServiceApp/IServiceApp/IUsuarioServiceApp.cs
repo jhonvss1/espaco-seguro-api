@@ -9,7 +9,7 @@ public interface IUsuarioServiceApp
     Task<UsuarioResponse> Criar(UsuarioRequestVm usuarioVm);
     Task<UsuarioResponse> ObterPorId(Guid id);
     Task<UsuarioResponse> Atualizar(UsuarioRequestVm usuarioVm, Guid id);
-    Task<UsuarioResponse> ObterTodos(UsuarioRequestVm usuarioVm);
+    Task <List<UsuarioResponse>> ObterTodos();
     Task<UsuarioResponse> Remover(Guid id);
     
 }

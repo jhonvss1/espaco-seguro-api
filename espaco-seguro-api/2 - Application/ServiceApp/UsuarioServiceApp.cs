@@ -71,13 +71,18 @@ public class UsuarioServiceApp(IUsuarioService usuarioService) : IUsuarioService
         }
     }
 
-    public Task<UsuarioResponse> ObterTodos(UsuarioRequestVm usuarioVm)
+    public async Task<List<UsuarioResponse>> ObterTodos()
     {
-        throw new NotImplementedException();
+        var usuariosEntidadeDominio =  await usuarioService.ObterTodosUsuarios();
+        
+        var usuarioResponse = UsuarioMapper.ParaResponseEmLista(usuariosEntidadeDominio);
+        
+        return usuarioResponse;
     }
 
-    public Task<UsuarioResponse> Remover(Guid id)
+    public async Task<UsuarioResponse> Remover(Guid id)
     {
-        throw new NotImplementedException();
+        await usuarioService.Deletar(id);
+        return null;
     }
 }

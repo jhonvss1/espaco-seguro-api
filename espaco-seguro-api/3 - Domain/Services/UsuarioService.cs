@@ -12,7 +12,11 @@ public class UsuarioService(IUsuarioRepository usuarioRepository) : IUsuarioServ
 {
     public async Task<Usuario> Criar(Usuario usuario)
     {
-        if((bool)(!usuario.AceitouTermos)!) throw new DomainValidationException("É necessário aceitar os termos.");
+        if((bool)(!usuario.AceitouTermos)!) 
+            throw new DomainValidationException("É necessário aceitar os termos.");
+        
+        
+        
         return await usuarioRepository.Criar(usuario);
     }
 
@@ -23,9 +27,14 @@ public class UsuarioService(IUsuarioRepository usuarioRepository) : IUsuarioServ
         return usuarioAtualizado;
     }
 
-    public Task<List<Usuario>> ObterTodosUsuarios()
+    public async Task<List<Usuario>> ObterTodosUsuarios()
     {
-        throw new NotImplementedException();
+        var usuarios = await usuarioRepository.ObterTodos();
+        
+        if (usuarios == null)
+            throw new ArgumentNullException("Não foi possível retornar os usuários.");
+        
+        return usuarios;
     }
 
     public async Task<Usuario> ObterPorId(Guid id)
@@ -36,6 +45,9 @@ public class UsuarioService(IUsuarioRepository usuarioRepository) : IUsuarioServ
 
     public Task<Usuario> Deletar(Guid id)
     {
-        throw new NotImplementedException();
+        if (id.Equals(Guid.Empty))
+            throw new DomainValidationException("Id do usuário tem que ser informado corretamente.");
+        
+        return usuarioRepository.Deletar(id);
     }
 }

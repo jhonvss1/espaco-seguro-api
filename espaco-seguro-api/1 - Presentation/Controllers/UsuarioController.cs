@@ -20,7 +20,8 @@ public class UsuarioController(IUsuarioServiceApp serviceApp) : ControllerBase
             if (usuario is null)
                 NoContent();
             
-            var usuarioCriado = await serviceApp.Criar(usuario);
+            await serviceApp.Criar(usuario);
+            
             return Created();
         }
         catch (Exception ex)
@@ -45,19 +46,47 @@ public class UsuarioController(IUsuarioServiceApp serviceApp) : ControllerBase
         }
     }
 
-    [HttpPut("atualizar")]
+    [HttpPut("atualizar{id:guid}")]
     public async Task<ActionResult<UsuarioResponse>> Atualizar(Guid id, [FromBody] UsuarioRequestVm usuario)
     {
         try
         {
             await serviceApp.Atualizar(usuario, id);
-            return Created();
+            return Ok("Dados do usuário atualizado com sucesso.");
         }
         catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
-        
+    }
+
+    [HttpGet("obter-todos")]
+    public async Task<ActionResult<UsuarioResponse>> ObterTodos()
+    {
+        try
+        {
+            var usuarios = await serviceApp.ObterTodos();
+            
+            return Ok(usuarios);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpDelete("remover/{id:guid}")]
+    public async Task<ActionResult> Remover(Guid id)
+    {
+        try
+        {
+            await serviceApp.Remover(id);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
     
 }

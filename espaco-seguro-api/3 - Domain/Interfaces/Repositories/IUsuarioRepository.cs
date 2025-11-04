@@ -9,5 +9,5 @@ public interface IUsuarioRepository
     Task<Usuario> Atualizar(Usuario usuario, Guid id);
     Task<Usuario> ObterPorId(Guid id);
     Task<List<Usuario>> ObterTodos();
-    Task<Usuario> Remover(Guid id);
+    Task<Usuario> Deletar(Guid id);
 }

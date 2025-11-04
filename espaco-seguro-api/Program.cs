@@ -5,6 +5,7 @@ using espaco_seguro_api._3___Domain.Interfaces.Repositories;
 using espaco_seguro_api._3___Domain.Interfaces.Services;
 using espaco_seguro_api._3___Domain.Services;
 using espaco_seguro_api._4___Data;
+using espaco_seguro_api._4___Data.Helpers;
 using espaco_seguro_api._4___Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -51,6 +52,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IUsuarioServiceApp, UsuarioServiceApp>();
+builder.Services.AddScoped<ICardRepository, CardRepository>();
+builder.Services.AddScoped<ICardService, CardService>();
+builder.Services.AddScoped<ICardServiceApp, CardServiceApp>();
+
+builder.Services.AddScoped<Helpers>();
 
 var app = builder.Build();
 

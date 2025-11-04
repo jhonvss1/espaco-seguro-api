@@ -55,4 +55,25 @@ public class UsuarioMapper
         };
         return usuarioVm;
     }
+    public static List<UsuarioResponse> ParaResponseEmLista(List<Usuario> usuariosVm)
+    {
+        return usuariosVm.Select(usuario => new UsuarioResponse
+        {
+            Id = usuario.Id,
+            Nome = usuario.Nome,
+            Email = usuario.Email,
+            DataNascimento = usuario.DataNascimento,
+            Telefone = usuario.Telefone,
+            Foto = usuario.Foto,
+            Funcao = usuario.Funcao,
+            StatusUsuario = usuario.StatusUsuario,
+            DataAceiteTermos = usuario.DataAceiteTermos,
+            DataAtualizacao = usuario.DataAtualizacao,
+            DataRegistro = usuario.DataRegistro,
+            QuantidadeCartoes = usuario.Cartoes?.Count ?? 0,
+            QuantidadePostagens = usuario.Postagens?.Count ?? 0,
+            QuantidadeSessoes = usuario.Sessoes?.Count ?? 0
+        }).ToList();
+    }
+    
 }

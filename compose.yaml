@@ -1,7 +1,21 @@
 ﻿services:
-  espaco-seguro-api:
-    image: espaco-seguro-api
-    build:
-      context: .
-      dockerfile: espaco-seguro-api/Dockerfile
+  espaco_db:
+    image: postgres:16
+    container_name: espaco_db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: espaco_seguro
+    volumes:      
+      - espaco_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d espaco_seguro"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
+volumes:
+  espaco_db_data:
