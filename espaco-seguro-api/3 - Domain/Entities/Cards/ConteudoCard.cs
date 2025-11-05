@@ -54,7 +54,6 @@ public class ConteudoCard
     public DateTime DataAtualizacao { get; set; } = DateTime.UtcNow;
     
     //Navegação
-    [ForeignKey("autor_id")]
     public Usuario Autor { get; set; }
 
     public virtual ICollection<FonteCard> Fonte { get; set; } = new List<FonteCard>();

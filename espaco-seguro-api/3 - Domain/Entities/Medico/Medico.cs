@@ -41,7 +41,7 @@ public class Medico
     public DateTime DataRegistro { get; set; } = DateTime.UtcNow;
     
     //Navegação
-    [ForeignKey("usuario_id")]
+    [ForeignKey(nameof(UsuarioId))]
     public virtual Usuario Usuario { get; set; }
     
     public virtual ICollection<CertificacaoMedico> Certificacoes { get; set; } = new List<CertificacaoMedico>();

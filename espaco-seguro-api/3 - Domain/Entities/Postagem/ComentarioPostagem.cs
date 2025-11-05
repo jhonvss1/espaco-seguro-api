@@ -36,9 +36,9 @@ public class ComentarioPostagem
     public DateTime DataRegistro { get; set; } = DateTime.UtcNow;
 
     // Navegação
-    [ForeignKey("postagem_id")]
+    [ForeignKey(nameof(PostagemId))]
     public virtual Postagem Postagem { get; set; }
 
-    [ForeignKey("autor_id")]
+    [ForeignKey(nameof(AutorId))]
     public virtual Usuario Autor { get; set; }
 }

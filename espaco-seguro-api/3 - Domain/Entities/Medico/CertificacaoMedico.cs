@@ -38,6 +38,6 @@ public class CertificacaoMedico
     public DateTime DataRegistro { get; set; } = DateTime.UtcNow;
 
     // Navegação
-    [ForeignKey("medico_id")]
+    [ForeignKey(nameof(MedicoId))]
     public virtual Medico Medico { get; set; }
 }

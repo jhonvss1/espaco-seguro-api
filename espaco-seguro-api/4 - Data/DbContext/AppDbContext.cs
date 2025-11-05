@@ -15,6 +15,7 @@ namespace espaco_seguro_api._4___Data
         public DbSet<ConteudoCard> ConteudoCards { get; set; }
         public DbSet<FonteCard> FonteCards { get; set; }
         public DbSet<Postagem> Postagens { get; set; }
+        public DbSet<CurtidaPostagem> Curtida => Set<CurtidaPostagem>();
         public DbSet<ComentarioPostagem> ComentarioPostagens { get; set; }
         public DbSet<MensagemChat> MensagemChats { get; set; }
         public DbSet<SessaoChat> SessaoChats { get; set; }
@@ -59,6 +60,16 @@ namespace espaco_seguro_api._4___Data
                 .Property(s => s.StatusPostagem)
                 .HasConversion<string>()
                 .HasMaxLength(30);
+
+            modelBuilder.Entity<CurtidaPostagem>(e =>
+            {
+                e.HasIndex(x => new { x.PostagemId, x.UsuarioId }).IsUnique(); // 1 like por usuário
+                e.HasOne<Postagem>()
+                    .WithMany()
+                    .HasForeignKey(x => x.PostagemId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+            
             
             modelBuilder.Entity<ComentarioPostagem>()
                 .Property(s => s.StatusComentarioPostagem)

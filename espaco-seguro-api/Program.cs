@@ -1,9 +1,13 @@
+using espaco_seguro_api._2___Application.Interfaces.Postagem;
 using espaco_seguro_api._2___Application.ServiceApp;
 using espaco_seguro_api._2___Application.ServiceApp.IServiceApp;
+using espaco_seguro_api._2___Application.ServiceApp.IServiceApp.ComentarioPostagem;
+using espaco_seguro_api._3___Domain.Entities;
 using espaco_seguro_api._3___Domain.Exceptions;
 using espaco_seguro_api._3___Domain.Interfaces.Repositories;
 using espaco_seguro_api._3___Domain.Interfaces.Services;
 using espaco_seguro_api._3___Domain.Services;
+using espaco_seguro_api._3___Domain.Services.Postagem.ComentarioPostagem;
 using espaco_seguro_api._4___Data;
 using espaco_seguro_api._4___Data.Helpers;
 using espaco_seguro_api._4___Data.Repositories;
@@ -58,6 +62,12 @@ builder.Services.AddScoped<ICardServiceApp, CardServiceApp>();
 builder.Services.AddScoped<IPostagemRepository, PostagemRepository>();
 builder.Services.AddScoped<IPostagemService, PostagemService>();
 builder.Services.AddScoped<IPostagemServiceApp, PostagemServiceApp>();
+builder.Services.AddScoped<ICurtidaPostagemRepository, CurtidaPostagemRepository>();
+builder.Services.AddScoped<ICurtidaPostagemService, CurtidaPostagemService>();
+builder.Services.AddScoped<ICurtidaPostagemServiceApp,  CurtidaPostagemServiceApp>();
+builder.Services.AddScoped<IComentarioPostagemRepository,  ComentarioPostagemRepository>();
+builder.Services.AddScoped<IComentarioPostagemService, ComentarioPostagemService>();
+builder.Services.AddScoped<IComentarioPostagemServiceApp, ComentarioPostagemServiceApp>();
 
 builder.Services.AddScoped<Helpers>();
 

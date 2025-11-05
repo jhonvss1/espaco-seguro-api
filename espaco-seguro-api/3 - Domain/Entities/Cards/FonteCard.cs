@@ -35,5 +35,5 @@ public class FonteCard
     public DateTime DataAtualizacao { get; set; } = DateTime.UtcNow;
 
     // Navegação
-    [ForeignKey("cartao_id")] public virtual ConteudoCard Cartao { get; set; }
+    public virtual ConteudoCard Cartao { get; set; }
 }

@@ -46,9 +46,9 @@ public class VerificacaoCard
     public DateTime VerificadoEm { get; set; } = DateTime.UtcNow;
     
     // Navegação
-    [ForeignKey("cartao_id")]
+    [ForeignKey(nameof(CartaoId))]
     public virtual ConteudoCard Cartao { get; set; }
 
-    [ForeignKey("medico_id")]
+    [ForeignKey(nameof(MedicoId))]
     public virtual Usuario Medico { get; set; }
 }

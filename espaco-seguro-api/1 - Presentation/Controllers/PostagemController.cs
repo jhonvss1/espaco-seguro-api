@@ -26,7 +26,7 @@ public class PostagemController(IPostagemServiceApp postagemServiceApp) : Contro
     
     
     [HttpGet("obter/{id:guid}")]
-    public async Task<ActionResult<PostagemReponse>> ObterPorId(Guid id)
+    public async Task<ActionResult<PostagemReponse>> ObterPorId(Guid id, [FromQuery] bool incluirComentarios = false)
     {
         try
         {

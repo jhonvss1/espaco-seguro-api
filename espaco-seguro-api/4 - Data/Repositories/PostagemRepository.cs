@@ -46,6 +46,24 @@ public class PostagemRepository(AppDbContext context) : IPostagemRepository
         return postagem;
     }
 
+    public async Task<(Postagem postagem, IReadOnlyList<ComentarioPostagem> Comentarios, int TotalComentarios)> ObterPostagemComComentarios(Guid id)
+    {
+        var postagem = await context.Postagens.FirstOrDefaultAsync(x => x.Id == id);
+        if (postagem is null)
+            return(null, Array.Empty<ComentarioPostagem>(), 0);
+
+        var totalComentarios = await context.ComentarioPostagens.AsNoTracking()
+            .CountAsync(c => c.PostagemId == id 
+                             && c.StatusComentarioPostagem == StatusComentarioPostagem.Publicado);
+
+        var comentarios = await context.ComentarioPostagens.AsNoTracking()
+            .Where(c => c.PostagemId == id && c.StatusComentarioPostagem == StatusComentarioPostagem.Publicado)
+            .OrderByDescending(c => c.DataRegistro)
+            .ToListAsync();
+        //depois implementar a paginação e a quantidade de comentarios
+        return (postagem, comentarios, totalComentarios);
+    }
+
     public async Task<List<Postagem>> ObterTodasPostagens()
     {
         var postagens = await context.Postagens.ToListAsync();

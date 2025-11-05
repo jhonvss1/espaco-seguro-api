@@ -36,9 +36,9 @@ public class MensagemChat
     public DateTime DataEnvio { get; set; } = DateTime.UtcNow;
 
     // Navegação
-    [ForeignKey("sessao_id")]
+    
     public virtual SessaoChat Sessao { get; set; }
 
-    [ForeignKey("remetente_id")]
+    
     public virtual Usuario Remetente { get; set; }   
 }

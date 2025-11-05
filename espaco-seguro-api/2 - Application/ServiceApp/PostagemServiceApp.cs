@@ -51,7 +51,7 @@ public class PostagemServiceApp(IPostagemService postagemService) : IPostagemSer
         
         return postagensVm;
     }
-
+    
     public async Task<PostagemReponse> Remover(Guid id)
     {
          await postagemService.Deletar(id);

@@ -49,6 +49,8 @@ public class UsuarioRepository(AppDbContext context) : IUsuarioRepository
         return usuario;
     }
 
+    #region Métodos Auxiliares
+    
     private void AtualizaCamposPreenchidosUsuario(Usuario usuario, Usuario existente, EntityEntry<Usuario> entry)
     {
         if (!string.IsNullOrWhiteSpace(usuario.Email))
@@ -112,5 +114,5 @@ public class UsuarioRepository(AppDbContext context) : IUsuarioRepository
         existente.DataAtualizacao = DateTime.UtcNow;
         entry.Property(p => p.DataAtualizacao).IsModified = true;
     }
-    
+    #endregion
 }

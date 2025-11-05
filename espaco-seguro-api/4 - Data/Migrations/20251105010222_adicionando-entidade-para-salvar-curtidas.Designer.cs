@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using espaco_seguro_api._4___Data;
@@ -11,9 +12,11 @@ using espaco_seguro_api._4___Data;
 namespace espaco_seguro_api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251105010222_adicionando-entidade-para-salvar-curtidas")]
+    partial class adicionandoentidadeparasalvarcurtidas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,13 +124,26 @@ namespace espaco_seguro_api.Migrations
                         .HasColumnType("character varying(30)")
                         .HasColumnName("status");
 
+                    b.Property<Guid>("autor_id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("postagem_id")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AutorId");
+                    b.HasIndex("autor_id");
 
-                    b.HasIndex("PostagemId");
+                    b.HasIndex("postagem_id");
 
-                    b.ToTable("comentario_postagem");
+                    b.ToTable("comentario_postagem", t =>
+                        {
+                            t.Property("autor_id")
+                                .HasColumnName("autor_id1");
+
+                            t.Property("postagem_id")
+                                .HasColumnName("postagem_id1");
+                        });
                 });
 
             modelBuilder.Entity("espaco_seguro_api._3___Domain.Entities.ConteudoCard", b =>
@@ -217,7 +233,7 @@ namespace espaco_seguro_api.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("data_criacao");
 
-                    b.Property<DateTime?>("DataRemocao")
+                    b.Property<DateTime>("DataRemocao")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("data_remocao");
 
@@ -693,13 +709,13 @@ namespace espaco_seguro_api.Migrations
                 {
                     b.HasOne("espaco_seguro_api._3___Domain.Entities.Usuario", "Autor")
                         .WithMany()
-                        .HasForeignKey("AutorId")
+                        .HasForeignKey("autor_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("espaco_seguro_api._3___Domain.Entities.Postagem", "Postagem")
                         .WithMany("Comentarios")
-                        .HasForeignKey("PostagemId")
+                        .HasForeignKey("postagem_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

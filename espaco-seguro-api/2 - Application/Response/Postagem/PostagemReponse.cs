@@ -15,4 +15,5 @@ public class PostagemReponse
     
     public DateTime DataPublicacao { get; set; }
     public DateTime? DataAtualizacao { get; set; }
+    
 }

@@ -32,7 +32,7 @@ public class SessaoChat
     public DateTime? EncerradoEm { get; set; }
     
     //Navegação
-    [ForeignKey("usuario_id")]
+    
     public virtual Usuario Usuario { get; set; }
     
     public virtual ICollection<MensagemChat> Mensagens { get; set; } = new List<MensagemChat>();
