@@ -2,7 +2,7 @@
 
 namespace espaco_seguro_api._2___Application.Response;
 
-public class PostagemCompletaReponse : PostagemReponse
+public class PostagemCompletaResponse : PostagemResponse
 {
     public List<ComentarioPostagemResponse> Comentarios { get; set; } = new();
 }

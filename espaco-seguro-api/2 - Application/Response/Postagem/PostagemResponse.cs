@@ -2,7 +2,7 @@
 
 namespace espaco_seguro_api._2___Application.Response;
 
-public class PostagemReponse
+public class PostagemResponse
 {
     public Guid Id { get; set; }
     public Guid AutorId { get; set; }

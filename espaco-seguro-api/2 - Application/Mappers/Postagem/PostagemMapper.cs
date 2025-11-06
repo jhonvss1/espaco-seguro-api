@@ -1,5 +1,6 @@
 ﻿using espaco_seguro_api._2___Application.Request;
 using espaco_seguro_api._2___Application.Response;
+using espaco_seguro_api._2___Application.Response.ComentarioPostagem;
 using espaco_seguro_api._3___Domain.Entities;
 
 namespace espaco_seguro_api._2___Application.Mappers;
@@ -19,9 +20,9 @@ public class PostagemMapper
         return  postagemEntidade;
     }
     
-    public static PostagemReponse ParaReponse(Postagem postagem)
+    public static PostagemResponse ParaReponse(Postagem postagem)
     {
-        var postagemVm = new PostagemReponse
+        var postagemVm = new PostagemResponse
         {
             Id =  postagem.Id,
             AutorId = postagem.AutorId,
@@ -37,9 +38,9 @@ public class PostagemMapper
         return  postagemVm;
     }
 
-    public static List<PostagemReponse> ParaReponseEmLista(List<Postagem> postagens)
+    public static List<PostagemResponse> ParaReponseEmLista(List<Postagem> postagens)
     {
-        return postagens.Select(postagens => new PostagemReponse
+        return postagens.Select(postagens => new PostagemResponse
         {
             Id =  postagens.Id,
             AutorId = postagens.AutorId,
@@ -52,6 +53,38 @@ public class PostagemMapper
             DataAtualizacao = postagens.DataAtualizacao,
             DataPublicacao = postagens.DataPublicacao
         }).ToList();
+    }
+
+
+    public static ComentarioPostagemResponse ParaComentarioReponse(ComentarioPostagem comentarioPostagem)
+    {
+        return new ComentarioPostagemResponse
+        {
+            Id = comentarioPostagem.Id,
+            AutorId = comentarioPostagem.AutorId,
+            Conteudo = comentarioPostagem.Conteudo,
+            Anonimo = comentarioPostagem.Anonimo,
+            StatusComentarioPostagem = comentarioPostagem.StatusComentarioPostagem,
+            ContagemCurtidas = comentarioPostagem.ContagemCurtidas,
+            DataPublicacao = comentarioPostagem.DataRegistro
+        };
+    }
+    
+    public static PostagemCompletaResponse ParaPostagemDetalhadaResponse(Postagem postagem, IReadOnlyList<ComentarioPostagem> comentarios, int totalComentarios)
+    {
+        return new PostagemCompletaResponse
+        {
+            Id = postagem.Id,
+            AutorId = postagem.AutorId,
+            Conteudo = postagem.Conteudo,
+            Tags = postagem.Tags,
+            Anonimo = postagem.Anonimo,
+            StatusPostagem = postagem.StatusPostagem,
+            ContagemCurtidas = postagem.ContagemCurtidas,
+            DataAtualizacao = postagem.DataAtualizacao,
+            DataPublicacao = postagem.DataPublicacao,
+            Comentarios = comentarios.Select(ParaComentarioReponse).ToList()
+        };
     }
     
 }

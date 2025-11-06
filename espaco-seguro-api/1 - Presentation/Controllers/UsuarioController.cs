@@ -10,8 +10,6 @@ namespace espaco_seguro_api._1___Presentation.Controllers;
 [Route("api/[controller]")]
 public class UsuarioController(IUsuarioServiceApp usuarioServiceApp) : ControllerBase
 {
-    private IUsuarioServiceApp usuarioServiceApp = usuarioServiceApp;
-
     [HttpPost("criar")]
     public async Task<ActionResult<UsuarioResponse>> Criar([FromBody] UsuarioRequestVm usuario)
     {

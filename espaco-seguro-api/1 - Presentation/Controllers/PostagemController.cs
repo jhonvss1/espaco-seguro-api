@@ -26,10 +26,16 @@ public class PostagemController(IPostagemServiceApp postagemServiceApp) : Contro
     
     
     [HttpGet("obter/{id:guid}")]
-    public async Task<ActionResult<PostagemReponse>> ObterPorId(Guid id, [FromQuery] bool incluirComentarios = false)
+    public async Task<ActionResult<PostagemCompletaResponse>> ObterPorId(Guid id, [FromQuery] bool incluirComentarios = false)
     {
         try
         {
+            if (incluirComentarios)
+            {
+                var postagemComComentarios =  await postagemServiceApp.ObterPostagemComComentarios(id);
+                return  Ok(postagemComComentarios);
+            }
+            
             var postagem = await postagemServiceApp.ObterPorId(id);
             return Ok(postagem);
         }
@@ -40,7 +46,7 @@ public class PostagemController(IPostagemServiceApp postagemServiceApp) : Contro
     }
     
     [HttpGet("obter-todas")]
-    public async Task <ActionResult<List<PostagemReponse>>> ObterTodasPostagens()
+    public async Task <ActionResult<List<PostagemResponse>>> ObterTodasPostagens()
     {
         try
         {
@@ -54,7 +60,7 @@ public class PostagemController(IPostagemServiceApp postagemServiceApp) : Contro
     }
 
     [HttpPut("atualizar/{id:guid}")]
-    public async Task<ActionResult<PostagemReponse>> Atualizar([FromBody] CriarPostagemRequestVm postagem, Guid id)
+    public async Task<ActionResult<PostagemResponse>> Atualizar([FromBody] CriarPostagemRequestVm postagem, Guid id)
     {
         try
         {
@@ -68,12 +74,12 @@ public class PostagemController(IPostagemServiceApp postagemServiceApp) : Contro
     }
     
     [HttpDelete("remover/{id:guid}")]
-    public async Task<ActionResult<PostagemReponse>> Remover(Guid id)
+    public async Task<ActionResult<PostagemResponse>> Remover(Guid id)
     {
         try
         {
-            var postagem = await postagemServiceApp.ObterPorId(id);
-            return Ok(postagem);
+            var postagem = await postagemServiceApp.Remover(id);
+            return NoContent();
         }
         catch (Exception ex)
         {

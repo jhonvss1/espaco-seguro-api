@@ -1,6 +1,7 @@
 ﻿using espaco_seguro_api._2___Application.Mappers;
 using espaco_seguro_api._2___Application.Request;
 using espaco_seguro_api._2___Application.Response;
+using espaco_seguro_api._2___Application.Response.ComentarioPostagem;
 using espaco_seguro_api._2___Application.ServiceApp.IServiceApp;
 using espaco_seguro_api._3___Domain.Entities;
 using espaco_seguro_api._3___Domain.Interfaces.Services;
@@ -11,7 +12,7 @@ public class PostagemServiceApp(IPostagemService postagemService) : IPostagemSer
 {
     
     
-    public async Task<PostagemReponse> Criar(CriarPostagemRequestVm criarPostagemRequestVm)
+    public async Task<PostagemResponse> Criar(CriarPostagemRequestVm criarPostagemRequestVm)
     {
         var postagemEntidade = PostagemMapper.ParaEntidade(criarPostagemRequestVm);
         
@@ -23,7 +24,7 @@ public class PostagemServiceApp(IPostagemService postagemService) : IPostagemSer
         
     }
 
-    public async Task<PostagemReponse> ObterPorId(Guid id)
+    public async Task<PostagemResponse> ObterPorId(Guid id)
     {
         var postagemEntidade = await postagemService.ObterPorId(id);
         
@@ -31,8 +32,12 @@ public class PostagemServiceApp(IPostagemService postagemService) : IPostagemSer
         
         return postagemVm;
     }
-
-    public async Task<PostagemReponse> Atualizar(CriarPostagemRequestVm criarPostagemVm, Guid id)
+    public async Task<PostagemCompletaResponse> ObterPostagemComComentarios(Guid id)
+    {
+        var (postagens, comentarios, total) = await postagemService.ObterPostagemComComentarios(id);
+        return PostagemMapper.ParaPostagemDetalhadaResponse(postagens, comentarios, total);
+    }
+    public async Task<PostagemResponse> Atualizar(CriarPostagemRequestVm criarPostagemVm, Guid id)
     {
         var postagem = PostagemMapper.ParaEntidade(criarPostagemVm);
         
@@ -43,7 +48,7 @@ public class PostagemServiceApp(IPostagemService postagemService) : IPostagemSer
         return postagemVm;
     }
 
-    public async Task<List<PostagemReponse>> ObterTodas()
+    public async Task<List<PostagemResponse>> ObterTodas()
     {
         var postagens = await postagemService.ObterTodasPostagens();
         
@@ -52,9 +57,9 @@ public class PostagemServiceApp(IPostagemService postagemService) : IPostagemSer
         return postagensVm;
     }
     
-    public async Task<PostagemReponse> Remover(Guid id)
+    public async Task<PostagemResponse> Remover(Guid id)
     {
          await postagemService.Deletar(id);
-         return null;
+         return new PostagemResponse();
     }
 }

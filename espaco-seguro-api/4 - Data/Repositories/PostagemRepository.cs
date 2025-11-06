@@ -41,12 +41,13 @@ public class PostagemRepository(AppDbContext context) : IPostagemRepository
         var postagem = await context.Postagens.FirstOrDefaultAsync(x => x.Id == id);
 
         if (postagem == null)
-            return new Postagem();
+            return null;
         
         return postagem;
     }
 
-    public async Task<(Postagem postagem, IReadOnlyList<ComentarioPostagem> Comentarios, int TotalComentarios)> ObterPostagemComComentarios(Guid id)
+    public async Task<(Postagem postagem, IReadOnlyList<ComentarioPostagem> Comentarios, int TotalComentarios)> 
+        ObterPostagemComComentarios(Guid id)
     {
         var postagem = await context.Postagens.FirstOrDefaultAsync(x => x.Id == id);
         if (postagem is null)
@@ -79,6 +80,7 @@ public class PostagemRepository(AppDbContext context) : IPostagemRepository
         var postagem = await context.Postagens.FirstOrDefaultAsync(x => x.Id == id);
         
         context.Postagens.Remove(postagem);
+        await context.SaveChangesAsync();
         
         return new Postagem();
     }
