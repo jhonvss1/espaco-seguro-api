@@ -9,7 +9,7 @@ public class PostagemReponse
     public string Conteudo { get; set; }
     public bool Anonimo { get; set; }
     public StatusPostagem  StatusPostagem { get; set; }
-    public string[] Tags { get; set; }
+    public string[]? Tags { get; set; }
     public int ContagemCurtidas { get; set; }   
     public int ContagemComentarios { get; set; }
     
