@@ -18,11 +18,6 @@ namespace espaco_seguro_api._2___Application.Mappers
                 Tipo = cardResquestVm.Tipo,
                 UrlMidia = cardResquestVm.UrlMidia,
                 Tags = cardResquestVm.Tags,
-                Status = cardResquestVm.Status ?? StatusConteudo.Rascunho,
-                AutorId = Guid.Empty, // Deve ser atribuído posteriormente
-                DataPublicacao = null,
-                DataRegistro = DateTime.UtcNow,
-                DataAtualizacao = DateTime.UtcNow,
             };
             return usuarioEntidadeDominio;
         }

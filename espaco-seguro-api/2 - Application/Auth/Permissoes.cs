@@ -11,7 +11,6 @@ public static class Permissoes
     public const string CardListar           = "Card.Listar";
     public const string CardEditar           = "Card.Editar";
     public const string CardDeletar          = "Card.Deletar";
-    public const string CardAutorizarPublicacao = "Card.AutorizarPublicacao"; // se quiser etapa dupla
     #endregion
 
     #region Postagem

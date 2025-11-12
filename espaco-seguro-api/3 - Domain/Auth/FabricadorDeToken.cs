@@ -27,14 +27,14 @@ public class FabricadorDeToken : IFabricadordeToken
     {
         var claims = new List<Claim>
         {
-            new(JwtRegisteredClaimNames.Sub, usuario.Id.ToString(), ClaimValueTypes.Integer64),
+            new(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
             new(JwtRegisteredClaimNames.Email, usuario.Email),
             new(JwtRegisteredClaimNames.UniqueName, usuario.Nome),
-            new(ClaimTypes.Role, usuario.Funcao.ToString() ?? throw new InvalidOperationException())
+            new(ClaimTypes.Role, usuario.Funcao.ToString())
         };
 
         var permissoes = ObterPermissoesPorFuncao(usuario.Funcao);
-        claims.AddRange(permissoes.Select(p => new Claim("permissoes", p)));
+        claims.AddRange(permissoes.Select(p => new Claim("perm", p)));
 
         if (claimsExtras is not null)
             claims.AddRange(claimsExtras);
@@ -52,33 +52,37 @@ public class FabricadorDeToken : IFabricadordeToken
         
     }
 
-    public DateTime ObterExpiracaoTokenAcesso(Usuario usuario)
-    {
-        throw new NotImplementedException();
-    }
+    public DateTime ObterExpiracaoTokenAcesso() =>
+        DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiracaoMinutos);
 
     public static IEnumerable<string> ObterPermissoesPorFuncao(FuncaoEnum? funcao) => funcao switch
     {
         FuncaoEnum.Administrador => new[]
         {
+            Permissoes.CardCriar,
+            Permissoes.CardEnviarRevisao,
+            Permissoes.CardRevisar,
             Permissoes.CardPublicar,
-            Permissoes.CardEditar,
+            Permissoes.CardArquivar,
             Permissoes.CardListar,
-            Permissoes.CardDeletar,
-        },
-        FuncaoEnum.Curador => new[]
-        {
-            Permissoes.CardPublicar,
             Permissoes.CardEditar,
-            Permissoes.CardListar,
             Permissoes.CardDeletar
         },
         FuncaoEnum.Medico => new[]
         {
+            Permissoes.CardCriar,
+            Permissoes.CardEnviarRevisao,
+            Permissoes.CardRevisar,
             Permissoes.CardPublicar,
-            Permissoes.CardEditar,
             Permissoes.CardListar,
-            Permissoes.CardDeletar,
+            Permissoes.CardEditar
+        },
+        FuncaoEnum.Curador => new[]
+        {
+            Permissoes.CardCriar,
+            Permissoes.CardEnviarRevisao,
+            Permissoes.CardListar,
+            Permissoes.CardEditar
         },
         _ => Array.Empty<string>()
     };

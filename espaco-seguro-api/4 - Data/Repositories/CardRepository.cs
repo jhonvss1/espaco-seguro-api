@@ -8,27 +8,58 @@ namespace espaco_seguro_api._4___Data.Repositories
     {
         private readonly AppDbContext _context = context;
 
-        public async Task<ConteudoCard> Criar(ConteudoCard card)
+        public async Task<ConteudoCard> Criar(ConteudoCard conteudoCard, Guid usuarioId)
         {
-            await _context.ConteudoCards.AddAsync(card);
-            await _context.SaveChangesAsync();
-            return card;
+            conteudoCard.CriadoPor(usuarioId);
+            await _context.ConteudoCards.AddAsync(conteudoCard);
+            return conteudoCard;
         }
 
-        public async Task<ConteudoCard> Atualizar(ConteudoCard card, Guid id)
+        public async Task EnviarParaRevisao(Guid cardId, Guid usuarioId)
         {
-           var existente = await _context.ConteudoCards.FirstOrDefaultAsync(x => x.Id == id);
-            if (existente is null)
-                throw new KeyNotFoundException("Card não encontrado para atualização.");
+            var card  = await context.ConteudoCards.FirstOrDefaultAsync(c => c.Id == cardId);
+            card.EnviarParaRevisao(usuarioId, _ => true);
+            context.ConteudoCards.Update(card);
+            await context.SaveChangesAsync();
+        }
 
-            var entry = _context.Entry(existente);
+        public async Task IniciarRevisao(Guid cardId, Guid usuarioId)
+        {
+            var card  = await context.ConteudoCards.FirstOrDefaultAsync(c => c.Id == cardId);
+            card.IniciarRevisao(usuarioId, _ => true);
+            context.ConteudoCards.Update(card);
+            await context.SaveChangesAsync();
+        }
 
-            var teste = new Helpers.Helpers();
-            
-            // AtualizaCamposPreenchidos(card, existente, entry); aqui tem que ser um metodo que atualiza as entidades proprias do card
+        public async Task Publicar(Guid cardId, Guid usuarioId)
+        {
+            var card  = await context.ConteudoCards.FirstOrDefaultAsync(c => c.Id == cardId);
+            card.Publicar(usuarioId, _ => true);
+            context.ConteudoCards.Update(card);
+            await context.SaveChangesAsync();
+        }
 
-            await _context.SaveChangesAsync();
-            return existente;
+        public async Task Arquivar(Guid cardId, Guid usuarioId)
+        {
+            var card  = await context.ConteudoCards.FirstOrDefaultAsync(c => c.Id == cardId);
+            card.Arquivar(usuarioId, _ => true);
+            context.ConteudoCards.Update(card);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<ConteudoCard> Atualizar(ConteudoCard conteudoCard, Guid id, Guid userId)
+        {
+            var atual = await context.ConteudoCards.FirstOrDefaultAsync(c => c.Id == id);
+            // aqui as regras de atualização (checar autor, status permitido, etc.)
+            atual.Titulo = conteudoCard.Titulo;
+            atual.Resumo = conteudoCard.Resumo;
+            atual.Corpo = conteudoCard.Corpo;
+            atual.Tipo = conteudoCard.Tipo;
+            atual.UrlMidia = conteudoCard.UrlMidia;
+            atual.Tags = conteudoCard.Tags;
+            atual.DataAtualizacao = DateTime.UtcNow;
+            context.Update(atual);
+            return atual;
         }
 
         public async Task<ConteudoCard> ObterPorId(Guid id)
@@ -37,19 +68,19 @@ namespace espaco_seguro_api._4___Data.Repositories
             return card;
         }
 
-        public async Task<List<ConteudoCard>> ObterTodos()
+        async Task<IReadOnlyList<ConteudoCard>> ICardRepository.ObterTodos()
         {
             var cards = await _context.ConteudoCards.AsNoTracking().ToListAsync();
             return cards;
         }
 
-        public async Task<ConteudoCard> Remover(Guid id)
+        public async Task<ConteudoCard> Remover(Guid id, Guid userId)
         {
-            var card = await _context.ConteudoCards.FirstOrDefaultAsync(c => c.Id == id);
-            _context.ConteudoCards.Remove(card);
-            
-            await _context.SaveChangesAsync();
-            return card;
+            var card = await context.ConteudoCards.FirstOrDefaultAsync(c => c.Id == id);
+            // regra: quem pode deletar?
+              context.ConteudoCards.Remove(card);
+              return  card;
         }
+        
     }
 }

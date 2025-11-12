@@ -35,6 +35,12 @@ public class UsuarioRepository(AppDbContext context) : IUsuarioRepository
         return usuario;
     }
 
+    public async Task<Usuario> ObterPorEmail(string email)
+    {
+        var usuario = await context.Usuarios.AsNoTracking().FirstOrDefaultAsync(e => e.Email == email);
+        return usuario;
+    }
+
     public async Task<List<Usuario>> ObterTodos()
     {
         var usuarios = await context.Usuarios.AsNoTracking().ToListAsync();

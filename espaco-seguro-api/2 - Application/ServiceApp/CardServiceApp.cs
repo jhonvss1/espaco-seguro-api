@@ -8,75 +8,46 @@ namespace espaco_seguro_api._2___Application.ServiceApp
 {
     public class CardServiceApp(ICardService cardService) : ICardServiceApp
     {
-        public async Task<CardResponse> Criar(CardResquestVm cardResquestVm)
+        public async Task<CardResponse> Criar(CardResquestVm cardResquestVm, Guid usuarioId)
         {
-            try
-            {
-                var entidadeDominio = CardMapper.ParaEntidade(cardResquestVm);
-                var criado = await cardService.Criar(entidadeDominio);
-                var cardVm = CardMapper.ParaResponse(criado);
-                return cardVm;
+            var entidade = CardMapper.ParaEntidade(cardResquestVm);
+            var criado = await cardService.Criar(entidade,  usuarioId);
+            return CardMapper.ParaResponse(criado);
+        }
 
-            }
-            catch (Exception ex)
-            {
-                throw new ArgumentException("Erro ao criar card.");
-            }
+        public Task EnviarParaRevisao(Guid cardId, Guid userId) =>
+            cardService.EnviarParaRevisao(cardId, userId);
+
+
+        public async Task IniciarRevisao(Guid cardId, Guid usuarioId) => 
+            await cardService.IniciarRevisao(cardId, usuarioId);
+
+        public async Task Publicar(Guid cardId, Guid usuarioId) =>
+            await cardService.Publicar(cardId, usuarioId);
+
+        public async Task Arquivar(Guid cardId, Guid usuarioId) => 
+            await cardService.Arquivar(cardId, usuarioId);
+
+        public async Task<CardResponse> Atualizar(CardResquestVm cardResquestVm, Guid id, Guid usuarioId)
+        {
+            var entidade = CardMapper.ParaEntidade(cardResquestVm);
+            var atualizado = await cardService.Atualizar(entidade, id, usuarioId);
+            return CardMapper.ParaResponse(atualizado);
         }
 
         public async Task<CardResponse> ObterPorId(Guid id)
         {
-            try
-            {
-                if (id != Guid.Empty)
-                {
-                }
-                var cardEntidadeDominio = await cardService.ObterPorId(id);
-                var cardResponse = CardMapper.ParaResponse(cardEntidadeDominio);
-                return cardResponse;
-            }
-            catch (Exception exception)
-            {
-                throw new ArgumentException("Erro ao buscar card.");
-            }
+            var card = await cardService.ObterPorId(id);
+            return CardMapper.ParaResponse(card);
         }
 
-        public async Task<CardResponse> Atualizar(CardResquestVm cardVm, Guid id)
+        public async Task<List<CardResponse>> ObterTodos()
         {
-            try
-            {
-                if( cardVm is null || id.Equals(Guid.Empty))
-                    throw new ArgumentNullException(nameof(cardVm),
-                        "O identificador informado é inválido ou não foi fornecido.");
-                var cardEntidadeDominio = CardMapper.ParaEntidade(cardVm);
-                var atualizado = await cardService.Atualizar(cardEntidadeDominio, id);
-                var cardResponse = CardMapper.ParaResponse(atualizado);
-                return cardResponse;
-            }
-            catch (Exception ex)
-            {
-                throw new ArgumentException("Erro ao atualizar card.");
-            }         
+            var lista = await cardService.ObterTodos();
+            return lista.Select(CardMapper.ParaResponse).ToList();
         }
 
-        public Task<List<CardResponse>> ObterTodos()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<CardResponse> Remover(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<CardResponse> Deletar(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<List<CardResponse>> ObterTodos(CardResquestVm cardVm)
-        {
-            throw new NotImplementedException();
-        }
+        public Task Remover(Guid id, Guid userId) =>
+            cardService.Remover(id, userId);
     }
 }

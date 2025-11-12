@@ -3,7 +3,7 @@ using espaco_seguro_api._2___Application.Response.LoginResponse;
 
 namespace espaco_seguro_api._2___Application.Interfaces.Auth;
 
-public interface ILoginService
+public interface ILoginServiceApp
 {
-    Task<LoginResponse> Login(LoginRequestVm loginRequest);
+    Task<LoginResponse> LoginAsync(LoginRequestVm loginRequest);
 }

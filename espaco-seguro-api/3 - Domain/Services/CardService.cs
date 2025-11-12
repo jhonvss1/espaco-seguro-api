@@ -7,32 +7,49 @@ namespace espaco_seguro_api._3___Domain.Services
 {
     public class CardService(ICardRepository cardRepository) : ICardService
     {
-        public async Task<ConteudoCard> Criar(ConteudoCard card)
+        public async Task<ConteudoCard> Criar(ConteudoCard card, Guid autorId)
         {
-            if(card is null)
-                throw new DomainValidationException("O conteúdo do card não pode ser nulo.");
-            return await cardRepository.Criar(card);
+            return await cardRepository.Criar(card, autorId);
         }
 
-        public Task<ConteudoCard> Atualizar(ConteudoCard conteudoCard, Guid id)
+        public async Task EnviarParaRevisao(Guid cardId, Guid userId)
         {
-            throw new NotImplementedException();
+             await cardRepository.EnviarParaRevisao(cardId, userId);
         }
 
-        public Task<List<ConteudoCard>> ObterTodosCards()
+        public async Task IniciarRevisao(Guid cardId, Guid userId)
         {
-            throw new NotImplementedException();
+            await cardRepository.IniciarRevisao(cardId, userId);
         }
-        
+
+        public async Task Publicar(Guid cardId, Guid userId)
+        {
+            await  cardRepository.Publicar(cardId, userId);
+        }
+
+        public async Task Arquivar(Guid cardId, Guid userId)
+        {
+            await cardRepository.Arquivar(cardId, userId);
+        }
+
+        public async Task<ConteudoCard> Atualizar(ConteudoCard card, Guid id, Guid userId)
+        {
+            return await cardRepository.Atualizar(card, id,  userId);
+        }
+
         public async Task<ConteudoCard> ObterPorId(Guid id)
         {
-            var card = await cardRepository.ObterPorId(id);
-            return card;
+            return await cardRepository.ObterPorId(id);
         }
 
-        public Task<ConteudoCard> Deletar(Guid id)
+        public async Task<IReadOnlyList<ConteudoCard>> ObterTodos()
         {
-            throw new NotImplementedException();
+            return await cardRepository.ObterTodos();
+        }
+
+        public async Task Remover(Guid id, Guid userId)
+        {
+            await cardRepository.Remover(id, userId);
         }
     }
 }

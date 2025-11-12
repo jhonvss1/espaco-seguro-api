@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using espaco_seguro_api._3___Domain.Security;
+using Microsoft.AspNetCore.Identity;
 
 namespace espaco_seguro_api._3___Domain.Entities;
 
@@ -16,7 +18,7 @@ public class Usuario
     
     [Required, MaxLength(255)]
     [Column("senha_hash")]
-    public string? SenhaHash { get; set; }
+    public string SenhaHash { get; set; }
     
     [Required, MaxLength(150)]
     [Column("nome")]
@@ -34,7 +36,7 @@ public class Usuario
     public string? Telefone  { get; set; }
 
     [Column("funcao")] 
-    public FuncaoEnum? Funcao { get; set; } = FuncaoEnum.Usuario; 
+    public FuncaoEnum Funcao { get; set; } = FuncaoEnum.Usuario; 
     
     [Column("status")]
     public StatusUsuario StatusUsuario { get; set; } = StatusUsuario.Pendente;
@@ -63,5 +65,9 @@ public class Usuario
     public virtual ICollection<Postagem> Postagens { get; set; } = new   List<Postagem>();
     public virtual ICollection<SessaoChat> Sessoes { get; set; } = new   List<SessaoChat>();
     public virtual Medico? Medico { get; set; }
+    
+    public bool VerificarSenha(string senhaPura, IPasswordHasher hasher)
+        => hasher.Verify(senhaPura, SenhaHash);
+
     
 }
