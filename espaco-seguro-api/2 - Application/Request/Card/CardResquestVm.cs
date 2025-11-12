@@ -11,6 +11,8 @@ namespace espaco_seguro_api._2___Application.Request
         public string? UrlMidia { get; set; }
         public string? Tags { get; set; }
         public StatusConteudo? Status { get; set; }
+        
+        
 
     }
 }
