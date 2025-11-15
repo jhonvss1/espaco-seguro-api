@@ -12,6 +12,6 @@ public class UsuarioRequestVm
     public string? Foto { get; set; }
     public bool? AceitouTermos { get; set; }
     public FuncaoEnum Funcao { get; set; } // validar as permissoes 
-    public string? Senha { get; set; }
-    public string? ConfirmarSenha { get; set; }
+    public string Senha { get; set; }
+    public string ConfirmarSenha { get; set; }
 }

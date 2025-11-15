@@ -5,17 +5,16 @@ using espaco_seguro_api._3___Domain.Exceptions;
 using espaco_seguro_api._3___Domain.Interfaces;
 using espaco_seguro_api._3___Domain.Interfaces.Repositories;
 using espaco_seguro_api._3___Domain.Interfaces.Services;
+using espaco_seguro_api._3___Domain.Security;
 
 namespace espaco_seguro_api._3___Domain.Services;
 
-public class UsuarioService(IUsuarioRepository usuarioRepository) : IUsuarioService
+public class UsuarioService(IUsuarioRepository usuarioRepository, IPasswordHasher passwordHasher) : IUsuarioService
 {
     public async Task<Usuario> Criar(Usuario usuario)
     {
         if((bool)(!usuario.AceitouTermos)!) 
             throw new DomainValidationException("É necessário aceitar os termos.");
-        
-        
         
         return await usuarioRepository.Criar(usuario);
     }

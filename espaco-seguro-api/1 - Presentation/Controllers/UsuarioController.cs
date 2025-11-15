@@ -16,7 +16,7 @@ public class UsuarioController(IUsuarioServiceApp usuarioServiceApp) : Controlle
         try
         {
             if (usuario is null)
-                NoContent();
+                return NoContent();
             
             await usuarioServiceApp.Criar(usuario);
             

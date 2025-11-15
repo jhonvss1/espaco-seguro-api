@@ -3,17 +3,20 @@ using espaco_seguro_api._2___Application.Request;
 using espaco_seguro_api._2___Application.ServiceApp.IServiceApp;
 using espaco_seguro_api._2___Application.ViewModels;
 using espaco_seguro_api._3___Domain.Interfaces.Services;
+using espaco_seguro_api._3___Domain.Security;
 
 namespace espaco_seguro_api._2___Application.ServiceApp;
 
-public class UsuarioServiceApp(IUsuarioService usuarioService) : IUsuarioServiceApp
+public class UsuarioServiceApp(IUsuarioService usuarioService, IPasswordHasher passwordHasher) : IUsuarioServiceApp
 {
     
     public async Task<UsuarioResponse> Criar(UsuarioRequestVm usuarioRequestVm)
     {
         try
         {
-            var entidadeDominio = UsuarioMapper.ParaEntidade(usuarioRequestVm);
+            var senhaHash = passwordHasher.Hash(usuarioRequestVm.Senha);
+            
+            var entidadeDominio = UsuarioMapper.ParaEntidade(usuarioRequestVm, senhaHash);
 
             var criado = await usuarioService.Criar(entidadeDominio);
 
@@ -57,7 +60,7 @@ public class UsuarioServiceApp(IUsuarioService usuarioService) : IUsuarioService
                 throw new ArgumentNullException(nameof(usuarioVm),
                     "O identificador informado é inválido ou não foi fornecido.");
 
-            var usuarioEntidadeDominio = UsuarioMapper.ParaEntidade(usuarioVm);
+            var usuarioEntidadeDominio = UsuarioMapper.ParaEntidade(usuarioVm, usuarioVm.Senha);
 
             var usuarioAtualizado = await usuarioService.Atualizar(usuarioEntidadeDominio, id);
 

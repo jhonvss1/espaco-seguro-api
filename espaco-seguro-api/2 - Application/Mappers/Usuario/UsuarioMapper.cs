@@ -8,7 +8,7 @@ namespace espaco_seguro_api._2___Application.Mappers;
 
 public class UsuarioMapper
 {
-    public static Usuario ParaEntidade(UsuarioRequestVm usuarioRequestVm)
+    public static Usuario ParaEntidade(UsuarioRequestVm usuarioRequestVm, string senhaHash)
     {
         var usuarioEntidadeDominio = new Usuario
         {
@@ -26,7 +26,7 @@ public class UsuarioMapper
             DataRegistro = DateTime.UtcNow,
             DataAtualizacao = DateTime.UtcNow,
             UltimoAcesso = null,
-            SenhaHash = usuarioRequestVm.Senha
+            SenhaHash =senhaHash
 
         };
         

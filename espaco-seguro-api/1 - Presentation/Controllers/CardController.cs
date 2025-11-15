@@ -28,7 +28,6 @@ namespace espaco_seguro_api._1___Presentation.Controllers
         #region MyRegion
         
         [HttpPost("criar")]
-        [Authorize(Policy = Permissoes.CardCriar)]
         public async Task<ActionResult> Criar([FromBody] CardResquestVm cardResquestVm)
         {
             try
@@ -46,7 +45,6 @@ namespace espaco_seguro_api._1___Presentation.Controllers
 
 
         [HttpPost("{id:guid}/enviar-revisao")]
-        [Authorize(Policy = Permissoes.CardEnviarRevisao)]
         public async Task<IActionResult> EnviarRevisao(Guid id)
         {
             await cardServiceApp.EnviarParaRevisao(id, UsuarioId());
@@ -55,7 +53,6 @@ namespace espaco_seguro_api._1___Presentation.Controllers
         
         
         [HttpPost("{id:guid}/iniciar-revisao")]
-        [Authorize(Policy = Permissoes.CardRevisar)]
         public async Task<IActionResult> IniciarRevisao(Guid id)
         {
             await cardServiceApp.IniciarRevisao(id, UsuarioId());
@@ -63,7 +60,6 @@ namespace espaco_seguro_api._1___Presentation.Controllers
         }
         
         [HttpPost("{id:guid}/publicar")]
-        [Authorize(Policy = Permissoes.CardPublicar)]
         public async Task<IActionResult> Publicar(Guid id)
         {
             await cardServiceApp.Publicar(id, UsuarioId());
@@ -71,7 +67,6 @@ namespace espaco_seguro_api._1___Presentation.Controllers
         }
 
         [HttpPost("{id:guid}/arquivar")]
-        [Authorize(Policy = Permissoes.CardArquivar)]
         public async Task<IActionResult> Arquivar(Guid id)
         {
             await cardServiceApp.Arquivar(id, UsuarioId());
