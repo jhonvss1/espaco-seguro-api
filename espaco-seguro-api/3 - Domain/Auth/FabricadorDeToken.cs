@@ -28,6 +28,8 @@ public class FabricadorDeToken : IFabricadordeToken
         var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
+            new(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
+            new("uid", usuario.Id.ToString()),
             new(JwtRegisteredClaimNames.Email, usuario.Email),
             new(JwtRegisteredClaimNames.UniqueName, usuario.Nome),
             new(ClaimTypes.Role, usuario.Funcao.ToString())

@@ -1,5 +1,8 @@
-﻿using espaco_seguro_api._3___Domain.Entities;
+﻿using espaco_seguro_api._3___Domain;
+using espaco_seguro_api._3___Domain.Entities;
+using espaco_seguro_api._3___Domain.Exceptions;
 using espaco_seguro_api._3___Domain.Interfaces.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace espaco_seguro_api._4___Data.Repositories
@@ -8,10 +11,11 @@ namespace espaco_seguro_api._4___Data.Repositories
     {
         private readonly AppDbContext _context = context;
 
-        public async Task<ConteudoCard> Criar(ConteudoCard conteudoCard, Guid usuarioId)
+        public async Task<ConteudoCard> Criar(ConteudoCard conteudoCard, Guid autorId)
         {
-            conteudoCard.CriadoPor(usuarioId);
-            await _context.ConteudoCards.AddAsync(conteudoCard);
+            conteudoCard.CriadoPor(autorId);
+            _context.ConteudoCards.Add(conteudoCard);
+            await _context.SaveChangesAsync();
             return conteudoCard;
         }
 
@@ -47,18 +51,14 @@ namespace espaco_seguro_api._4___Data.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task<ConteudoCard> Atualizar(ConteudoCard conteudoCard, Guid id, Guid userId)
+        public async Task<ConteudoCard> Atualizar(ConteudoCard conteudoCard, Guid cardId)
         {
-            var atual = await context.ConteudoCards.FirstOrDefaultAsync(c => c.Id == id);
-            // aqui as regras de atualização (checar autor, status permitido, etc.)
-            atual.Titulo = conteudoCard.Titulo;
-            atual.Resumo = conteudoCard.Resumo;
-            atual.Corpo = conteudoCard.Corpo;
-            atual.Tipo = conteudoCard.Tipo;
-            atual.UrlMidia = conteudoCard.UrlMidia;
-            atual.Tags = conteudoCard.Tags;
-            atual.DataAtualizacao = DateTime.UtcNow;
+            var atual = await context.ConteudoCards.FirstOrDefaultAsync(c => c.Id == cardId);
+
+            AtualizarCamposPreenchidos(atual, conteudoCard);
+            
             context.Update(atual);
+            await context.SaveChangesAsync();
             return atual;
         }
 
@@ -77,9 +77,32 @@ namespace espaco_seguro_api._4___Data.Repositories
         public async Task<ConteudoCard> Remover(Guid id, Guid userId)
         {
             var card = await context.ConteudoCards.FirstOrDefaultAsync(c => c.Id == id);
-            // regra: quem pode deletar?
               context.ConteudoCards.Remove(card);
               return  card;
+        }
+
+
+        private void AtualizarCamposPreenchidos(ConteudoCard existente, ConteudoCard novo)
+        {
+            if (existente == null)
+                throw new DomainValidationException("Card não existente.");
+
+            if (novo == null)
+                throw new DomainValidationException("Não há informações para serem atualizadas");
+            
+            if(novo.Titulo != null)
+                existente.Titulo = novo.Titulo;
+            
+            if(novo.Corpo!= null)
+                existente.Corpo = novo.Corpo;
+            if(novo.Resumo != null)
+                existente.Resumo = novo.Resumo;
+            if(novo.UrlMidia != null)
+                existente.UrlMidia = novo.UrlMidia;
+            if(novo.Tags != null)
+                existente.Tags = novo.Tags;
+            if (novo.Status != null)
+                existente.Status = novo.Status;
         }
         
     }

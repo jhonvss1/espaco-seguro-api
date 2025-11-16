@@ -10,7 +10,7 @@ namespace espaco_seguro_api._2___Application.Response
         public string Corpo { get; set; }
         public string Tipo { get; set; } // text, infographic, video
         public string UrlMidia { get; set; }
-        public string Tags { get; set; } // JSON array
+        public string[]? Tags { get; set; } // JSON array
         public StatusConteudo Status { get; set; }
         public Guid AutorId { get; set; }
         public DateTime? DataPublicacao { get; set; }

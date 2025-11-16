@@ -10,18 +10,18 @@ public class ConteudoCard
     [Column("id")]
     public Guid Id { get; set; } = Guid.NewGuid();
 
-    [Required, MaxLength(100)]
+    [MaxLength(100)]
     [Column("titulo")]
     public string Titulo { get; set; }
 
-    [Required, MaxLength(200)]
+    [MaxLength(200)]
     [Column("resumo")]
     public string Resumo { get; set; }
 
     [Column("corpo")]
     public string Corpo { get; set; }
 
-    [Required, MaxLength(20)]
+    [MaxLength(20)]
     [Column("tipo")]
     public string Tipo { get; set; } // text, infographic, video
 
@@ -29,8 +29,8 @@ public class ConteudoCard
     [Column("url_midia")]
     public string UrlMidia { get; set; }
 
-    [Column("tags", TypeName = "jsonb")]
-    public string Tags { get; set; }
+    [Column("tags", TypeName = "text[]")]
+    public string[]? Tags { get; set; }
     
     [Column("status"), MaxLength(20)] 
     public StatusConteudo Status { get; set; } = StatusConteudo.Rascunho;
@@ -102,7 +102,7 @@ public class ConteudoCard
 
         if (Status != StatusConteudo.Revisao)
         {
-            throw new InvalidOperationException("Só é possível publicar o card a partir de Pendente.");
+            throw new InvalidOperationException("Só é possível publicar o card a partir de Revisão.");
         }
         
         Status = StatusConteudo.Publicado;

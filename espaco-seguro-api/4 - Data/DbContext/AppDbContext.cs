@@ -90,6 +90,17 @@ namespace espaco_seguro_api._4___Data
                 .Property(m => m.TipoMensagem)
                 .HasConversion<string>()
                 .HasMaxLength(30);
+            
+            modelBuilder.Entity<ConteudoCard>()
+                .Property(m => m.Status)
+                .HasConversion<string>()
+                .HasMaxLength(30);
+            
+            modelBuilder.Entity<ConteudoCard>()
+                .Property(c => c.Tags)
+                .HasColumnName("tags")
+                .HasColumnType("text[]");
+
         }
     }
 }

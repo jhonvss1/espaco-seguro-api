@@ -21,7 +21,7 @@ public class UsuarioMapper
             AceitouTermos = usuarioRequestVm.AceitouTermos,
             Funcao = usuarioRequestVm.Funcao,
             Foto =  usuarioRequestVm.Foto,
-            StatusUsuario = StatusUsuario.Pendente,
+            StatusUsuario = StatusUsuario.Ativo,
             DataAceiteTermos = DateTime.UtcNow,
             DataRegistro = DateTime.UtcNow,
             DataAtualizacao = DateTime.UtcNow,

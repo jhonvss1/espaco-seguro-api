@@ -39,7 +39,7 @@ public class Usuario
     public FuncaoEnum Funcao { get; set; } = FuncaoEnum.Usuario; 
     
     [Column("status")]
-    public StatusUsuario StatusUsuario { get; set; } = StatusUsuario.Pendente;
+    public StatusUsuario StatusUsuario { get; set; } = StatusUsuario.Ativo;
     
     [MaxLength(500)]
     [Column("foto")]

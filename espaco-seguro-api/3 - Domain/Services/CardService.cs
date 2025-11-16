@@ -32,9 +32,9 @@ namespace espaco_seguro_api._3___Domain.Services
             await cardRepository.Arquivar(cardId, userId);
         }
 
-        public async Task<ConteudoCard> Atualizar(ConteudoCard card, Guid id, Guid userId)
+        public async Task<ConteudoCard> Atualizar(ConteudoCard card, Guid cardId)
         {
-            return await cardRepository.Atualizar(card, id,  userId);
+            return await cardRepository.Atualizar(card, cardId);
         }
 
         public async Task<ConteudoCard> ObterPorId(Guid id)

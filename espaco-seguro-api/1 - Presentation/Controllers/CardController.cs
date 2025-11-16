@@ -1,11 +1,8 @@
-﻿using System.Security.Claims;
 using espaco_seguro_api._2___Application.Request;
 using espaco_seguro_api._2___Application.ServiceApp.IServiceApp;
 using espaco_seguro_api._3___Domain.Security;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace espaco_seguro_api._1___Presentation.Controllers
 {
@@ -13,28 +10,16 @@ namespace espaco_seguro_api._1___Presentation.Controllers
     [Route("api/[controller]")]
     public class CardController(ICardServiceApp cardServiceApp) : ControllerBase
     {
-        private Guid UsuarioId()
-        {
-            var id = User.FindFirstValue(ClaimTypes.NameIdentifier) ??
-                     User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+        #region Post
 
-            if (string.IsNullOrWhiteSpace(id))
-                throw new UnauthorizedAccessException("Usuário não autenticado.");
-
-            return Guid.Parse(id);
-        }
-
-
-        #region MyRegion
-        
         [HttpPost("criar")]
         public async Task<ActionResult> Criar([FromBody] CardResquestVm cardResquestVm)
         {
             try
             {
                 if (cardResquestVm is null)
-                    return BadRequest("Payload inválido.");
-                var cardCriado = await cardServiceApp.Criar(cardResquestVm, UsuarioId());
+                    return BadRequest("Payload invalido.");
+                var cardCriado = await cardServiceApp.Criar(cardResquestVm, cardResquestVm.AutorId);
                 return Created("", cardCriado);
             }
             catch (Exception ex)
@@ -43,38 +28,36 @@ namespace espaco_seguro_api._1___Presentation.Controllers
             }
         }
 
-
-        [HttpPost("{id:guid}/enviar-revisao")]
-        public async Task<IActionResult> EnviarRevisao(Guid id)
+        [HttpPost("enviar-revisao")]
+        public async Task<IActionResult> EnviarRevisao([FromQuery] Guid cardId, Guid autorId)
         {
-            await cardServiceApp.EnviarParaRevisao(id, UsuarioId());
-            return NoContent();
-        }
-        
-        
-        [HttpPost("{id:guid}/iniciar-revisao")]
-        public async Task<IActionResult> IniciarRevisao(Guid id)
-        {
-            await cardServiceApp.IniciarRevisao(id, UsuarioId());
-            return NoContent();
-        }
-        
-        [HttpPost("{id:guid}/publicar")]
-        public async Task<IActionResult> Publicar(Guid id)
-        {
-            await cardServiceApp.Publicar(id, UsuarioId());
+            await cardServiceApp.EnviarParaRevisao(cardId, autorId);
             return NoContent();
         }
 
-        [HttpPost("{id:guid}/arquivar")]
-        public async Task<IActionResult> Arquivar(Guid id)
+        [HttpPost("iniciar-revisao")]
+        public async Task<IActionResult> IniciarRevisao(Guid cardId, Guid autorId)
         {
-            await cardServiceApp.Arquivar(id, UsuarioId());
+            await cardServiceApp.IniciarRevisao(cardId, autorId);
             return NoContent();
         }
-        
+
+        [HttpPost("publicar")]
+        public async Task<IActionResult> Publicar(Guid cardId, Guid autorId)
+        {
+            await cardServiceApp.Publicar(cardId, autorId);
+            return NoContent();
+        }
+
+        [HttpPost("arquivar")]
+        public async Task<IActionResult> Arquivar(Guid cardId, Guid autorId)
+        {
+            await cardServiceApp.Arquivar(cardId, autorId);
+            return NoContent();
+        }
+
         #endregion
-        [Authorize(Policy = Permissoes.CardListar)]
+
         [HttpGet("obter/{id:guid}")]
         public async Task<ActionResult> ObterPorId(Guid id)
         {
@@ -88,8 +71,7 @@ namespace espaco_seguro_api._1___Presentation.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
-        [Authorize(Policy = Permissoes.CardListar)]
+
         [HttpGet("obter-todos")]
         public async Task<ActionResult> ObterTodosCards()
         {
@@ -103,14 +85,13 @@ namespace espaco_seguro_api._1___Presentation.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
-        [Authorize(Policy = Permissoes.CardEditar)]
-        [HttpPut("atualizar/{id:guid}")]
-        public async Task<ActionResult> Atualizar(Guid id, [FromBody] CardResquestVm cardResquestVm)
+
+        [HttpPut("atualizar")]
+        public async Task<ActionResult> Atualizar([FromBody] CardResquestVm cardResquestVm, Guid cardId)
         {
             try
             {
-                var response = await cardServiceApp.Atualizar(cardResquestVm, id, UsuarioId());
+                var response = await cardServiceApp.Atualizar(cardResquestVm, cardId);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -118,14 +99,13 @@ namespace espaco_seguro_api._1___Presentation.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
-        [Authorize(Policy = Permissoes.CardDeletar)]
+
         [HttpDelete("deletar/{id:guid}")]
-        public async Task<ActionResult> Deletar(Guid id)
+        public async Task<ActionResult> Deletar(Guid id, Guid autorId)
         {
             try
             {
-                await cardServiceApp.Remover(id, UsuarioId());
+                await cardServiceApp.Remover(id, autorId);
                 return NoContent();
             }
             catch (Exception ex)
@@ -133,6 +113,5 @@ namespace espaco_seguro_api._1___Presentation.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
     }
 }

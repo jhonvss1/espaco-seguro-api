@@ -9,7 +9,7 @@ namespace espaco_seguro_api._3___Domain.Interfaces.Services
         Task IniciarRevisao(Guid cardId, Guid userId);
         Task Publicar(Guid cardId, Guid userId);
         Task Arquivar(Guid cardId, Guid userId);
-        Task<ConteudoCard> Atualizar(ConteudoCard card, Guid id, Guid userId);
+        Task<ConteudoCard> Atualizar(ConteudoCard card, Guid cardid);
         Task<ConteudoCard> ObterPorId(Guid id);
         Task<IReadOnlyList<ConteudoCard>> ObterTodos();
         Task Remover(Guid id, Guid userId);

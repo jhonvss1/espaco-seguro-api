@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using espaco_seguro_api._4___Data;
@@ -11,9 +12,11 @@ using espaco_seguro_api._4___Data;
 namespace espaco_seguro_api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251116165614_muda-tipo-tabela-tags")]
+    partial class mudatipotabelatags
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,14 +160,13 @@ namespace espaco_seguro_api.Migrations
                         .HasColumnType("character varying(200)")
                         .HasColumnName("resumo");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
+                    b.Property<int>("Status")
+                        .HasMaxLength(20)
+                        .HasColumnType("integer")
                         .HasColumnName("status");
 
-                    b.PrimitiveCollection<string[]>("Tags")
-                        .HasColumnType("text[]")
+                    b.Property<string[]>("Tags")
+                        .HasColumnType("jsonb")
                         .HasColumnName("tags");
 
                     b.Property<string>("Tipo")

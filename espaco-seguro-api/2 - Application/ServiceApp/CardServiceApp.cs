@@ -28,10 +28,10 @@ namespace espaco_seguro_api._2___Application.ServiceApp
         public async Task Arquivar(Guid cardId, Guid usuarioId) => 
             await cardService.Arquivar(cardId, usuarioId);
 
-        public async Task<CardResponse> Atualizar(CardResquestVm cardResquestVm, Guid id, Guid usuarioId)
+        public async Task<CardResponse> Atualizar(CardResquestVm cardResquestVm, Guid cardId)
         {
             var entidade = CardMapper.ParaEntidade(cardResquestVm);
-            var atualizado = await cardService.Atualizar(entidade, id, usuarioId);
+            var atualizado = await cardService.Atualizar(entidade, cardId);
             return CardMapper.ParaResponse(atualizado);
         }
 
