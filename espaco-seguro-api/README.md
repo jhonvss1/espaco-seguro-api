@@ -296,4 +296,4 @@ Recomenda-se ao front:
 
 ---
 
-> **Dúvidas ou contribuições**: utilize o README como referência rápida e explore o Swagger para ver o contrato gerado automaticamente a partir dos controllers. Tudo descrito aqui reflete fielmente o estado atual do código-fonte. Buon lavoro! 😊
+> **Dúvidas ou contribuições**: utilize o README como referência rápida e explore o Swagger para ver o contrato gerado automaticamente a partir dos controllers. Tudo descrito aqui reflete fielmente o estado atual do código-fonte. 
