@@ -18,7 +18,7 @@ public class UsuarioMapper
             DataNascimento = usuarioRequestVm.DataNascimento,
             Telefone = usuarioRequestVm.Telefone,
             Cpf = usuarioRequestVm.Cpf,
-            AceitouTermos = usuarioRequestVm.AceitouTermos,
+            AceitouTermos = usuarioRequestVm.AceitaTermos,
             Funcao = usuarioRequestVm.Funcao,
             Foto =  usuarioRequestVm.Foto,
             StatusUsuario = StatusUsuario.Ativo,

@@ -14,6 +14,7 @@ namespace espaco_seguro_api._4___Data.Repositories
         public async Task<ConteudoCard> Criar(ConteudoCard conteudoCard, Guid autorId)
         {
             conteudoCard.CriadoPor(autorId);
+            
             _context.ConteudoCards.Add(conteudoCard);
             await _context.SaveChangesAsync();
             return conteudoCard;
@@ -99,8 +100,6 @@ namespace espaco_seguro_api._4___Data.Repositories
                 existente.Resumo = novo.Resumo;
             if(novo.UrlMidia != null)
                 existente.UrlMidia = novo.UrlMidia;
-            if(novo.Tags != null)
-                existente.Tags = novo.Tags;
             if (novo.Status != null)
                 existente.Status = novo.Status;
         }

@@ -96,10 +96,7 @@ namespace espaco_seguro_api._4___Data
                 .HasConversion<string>()
                 .HasMaxLength(30);
             
-            modelBuilder.Entity<ConteudoCard>()
-                .Property(c => c.Tags)
-                .HasColumnName("tags")
-                .HasColumnType("text[]");
+
 
         }
     }

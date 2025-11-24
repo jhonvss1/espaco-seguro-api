@@ -28,9 +28,6 @@ public class ConteudoCard
     [MaxLength(2048)]
     [Column("url_midia")]
     public string UrlMidia { get; set; }
-
-    [Column("tags", TypeName = "text[]")]
-    public string[]? Tags { get; set; }
     
     [Column("status"), MaxLength(20)] 
     public StatusConteudo Status { get; set; } = StatusConteudo.Rascunho;

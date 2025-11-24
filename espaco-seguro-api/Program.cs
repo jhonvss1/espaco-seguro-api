@@ -60,6 +60,16 @@ builder.Services.AddSwaggerGen(opt =>
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("DevCors", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseNpgsql(builder.Configuration.GetConnectionString("ConexaoPadrao")));
 
@@ -179,6 +189,8 @@ app.Use(async (ctx, next) =>
 
 
 app.UseHttpsRedirection();
+
+app.UseCors("DevCors");
 
 app.UseAuthentication();   
 app.UseAuthorization();

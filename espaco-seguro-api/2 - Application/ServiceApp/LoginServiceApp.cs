@@ -34,6 +34,7 @@ public sealed class LoginServiceApp : ILoginServiceApp
         return new LoginResponse
         {
             TokenAcesso = token,
+            UsuarioId =  usuario.Id,
             ExpiracaoTokenAcesso   = _tokenFactory.ObterExpiracaoTokenAcesso(),
             Email       = usuario.Email,
             Nome        = usuario.Nome,

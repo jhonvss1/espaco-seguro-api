@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace espaco_seguro_api._1___Presentation.Controllers;
 
+[ApiController]
+[Route("api/[controller]")]
 public class AuthController(ILoginServiceApp loginServiceApp) : ControllerBase
 {
     [HttpPost("login")]

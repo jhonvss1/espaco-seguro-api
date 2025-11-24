@@ -15,6 +15,11 @@ public class UsuarioService(IUsuarioRepository usuarioRepository, IPasswordHashe
     {
         if((bool)(!usuario.AceitouTermos)!) 
             throw new DomainValidationException("É necessário aceitar os termos.");
+
+        if (usuario.Cpf.Length != 11)
+        {
+            throw new DomainValidationException("CPF com mais de 11 caracteres.");
+        }
         
         return await usuarioRepository.Criar(usuario);
     }

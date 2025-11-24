@@ -17,7 +17,6 @@ namespace espaco_seguro_api._2___Application.Mappers
                 Corpo = cardResquestVm.Corpo,
                 Tipo = cardResquestVm.Tipo,
                 UrlMidia = cardResquestVm.UrlMidia,
-                Tags = cardResquestVm.Tags,
             };
             return usuarioEntidadeDominio;
         }
@@ -32,7 +31,6 @@ namespace espaco_seguro_api._2___Application.Mappers
                 Corpo = card.Corpo,
                 Tipo = card.Tipo,
                 UrlMidia = card.UrlMidia,
-                Tags = card.Tags,
                 Status = card.Status,
                 AutorId = card.AutorId,
                 DataPublicacao = card.DataPublicacao,
