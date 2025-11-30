@@ -62,13 +62,19 @@ builder.Services.AddSwaggerGen(opt =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("DevCors", policy =>
+    options.AddPolicy("CorsPolicy", policy =>
     {
-        policy.WithOrigins("http://localhost:4200")
+        policy
+            .AllowAnyMethod()
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowCredentials()
+            .WithOrigins(
+                "http://localhost:4200",
+                "https://espaco-seguro-web.onrender.com"
+            );
     });
 });
+
 
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseNpgsql(builder.Configuration.GetConnectionString("ConexaoPadrao")));
@@ -158,10 +164,14 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy(Permissoes.CardListar,        p => p.RequireClaim("perm", Permissoes.CardListar));
 });
 
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 var app = builder.Build();
+
+if (builder.Environment.IsProduction())
+{
+    var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+}
 
 if (app.Environment.IsDevelopment())
 {
@@ -192,7 +202,9 @@ app.Use(async (ctx, next) =>
 
 app.UseHttpsRedirection();
 
-app.UseCors("DevCors");
+
+app.UseCors("CorsPolicy");
+
 
 app.UseAuthentication();   
 app.UseAuthorization();
