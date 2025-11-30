@@ -158,6 +158,8 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy(Permissoes.CardListar,        p => p.RequireClaim("perm", Permissoes.CardListar));
 });
 
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 var app = builder.Build();
 
