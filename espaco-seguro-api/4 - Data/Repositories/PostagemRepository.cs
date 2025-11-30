@@ -99,12 +99,6 @@ public class PostagemRepository(AppDbContext context) : IPostagemRepository
             existente.Conteudo = postagem.Conteudo;
             entry.Property(p => p.Conteudo).IsModified = true;
         }
-        if (postagem.Tags != null && postagem.Tags.Length > 0)
-        {
-            existente.Tags = postagem.Tags;
-            entry.Property(p => p.Tags).IsModified = true;
-        }
-        
         
         //Campos fixos ou sempre atualizados
         existente.StatusPostagem = postagem.StatusPostagem;

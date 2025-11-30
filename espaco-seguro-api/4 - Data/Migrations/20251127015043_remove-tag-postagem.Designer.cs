@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using espaco_seguro_api._4___Data;
@@ -11,9 +12,11 @@ using espaco_seguro_api._4___Data;
 namespace espaco_seguro_api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251127015043_remove-tag-postagem")]
+    partial class removetagpostagem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,8 +139,7 @@ namespace espaco_seguro_api.Migrations
 
                     b.Property<string>("Corpo")
                         .IsRequired()
-                        .HasMaxLength(10000)
-                        .HasColumnType("character varying(10000)")
+                        .HasColumnType("text")
                         .HasColumnName("corpo");
 
                     b.Property<DateTime>("DataAtualizacao")
@@ -154,8 +156,8 @@ namespace espaco_seguro_api.Migrations
 
                     b.Property<string>("Resumo")
                         .IsRequired()
-                        .HasMaxLength(3000)
-                        .HasColumnType("character varying(3000)")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
                         .HasColumnName("resumo");
 
                     b.Property<string>("Status")

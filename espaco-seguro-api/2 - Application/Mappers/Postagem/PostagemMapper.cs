@@ -15,7 +15,6 @@ public class PostagemMapper
             AutorId = criarPostagem.AutorId,
             Anonimo = criarPostagem.Anonimo,
             Conteudo = criarPostagem.Conteudo,
-            Tags = criarPostagem.Tags ?? Array.Empty<string>(),
         };
         return  postagemEntidade;
     }
@@ -31,7 +30,6 @@ public class PostagemMapper
             ContagemCurtidas = postagem.ContagemCurtidas,
             Conteudo = postagem.Conteudo,
             StatusPostagem = postagem.StatusPostagem,   
-            Tags = postagem.Tags,
             DataAtualizacao = postagem.DataAtualizacao,
             DataPublicacao = postagem.DataPublicacao
         };
@@ -49,7 +47,6 @@ public class PostagemMapper
             ContagemCurtidas = postagens.ContagemCurtidas,
             Conteudo = postagens.Conteudo,
             StatusPostagem = postagens.StatusPostagem,   
-            Tags = postagens.Tags,
             DataAtualizacao = postagens.DataAtualizacao,
             DataPublicacao = postagens.DataPublicacao
         }).ToList();
@@ -77,7 +74,6 @@ public class PostagemMapper
             Id = postagem.Id,
             AutorId = postagem.AutorId,
             Conteudo = postagem.Conteudo,
-            Tags = postagem.Tags,
             Anonimo = postagem.Anonimo,
             StatusPostagem = postagem.StatusPostagem,
             ContagemCurtidas = postagem.ContagemCurtidas,

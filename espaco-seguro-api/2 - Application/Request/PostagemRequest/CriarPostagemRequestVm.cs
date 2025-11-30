@@ -7,5 +7,4 @@ public class CriarPostagemRequestVm
     public Guid AutorId { get; set; }
     public string Conteudo { get; set; }
     public bool Anonimo { get; set; }
-    public string[]? Tags { get; set; }
 }

@@ -24,8 +24,6 @@ public class Postagem
     [MaxLength(20)] 
     [Column("status_postagem")]
     public StatusPostagem StatusPostagem { get; set; } = StatusPostagem.Rascunho; 
-    [Column("tags")]
-    public string[]? Tags { get; set; }
 
     [Column("contagem_curtidas")]
     public int ContagemCurtidas { get; private set; } = 0;
@@ -33,8 +31,7 @@ public class Postagem
     [Column("contagem_comentarios")]
     public int ContagemComentarios { get; private set; } = 0;
 
-    [Column("data_publicacao")]
-    public DateTime DataPublicacao { get; set; }
+    [Column("data_publicacao")] public DateTime DataPublicacao { get; set; } = DateTime.UtcNow;
     
     [Column("data_registro")]
     public DateTime DataRegistro { get; set; } = DateTime.UtcNow;

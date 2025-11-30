@@ -14,10 +14,10 @@ public class ConteudoCard
     [Column("titulo")]
     public string Titulo { get; set; }
 
-    [MaxLength(200)]
+    [MaxLength(3000)]
     [Column("resumo")]
     public string Resumo { get; set; }
-
+    [MaxLength(10000)]
     [Column("corpo")]
     public string Corpo { get; set; }
 
