@@ -8,6 +8,7 @@ namespace espaco_seguro_api._3___Domain.Entities;
 [Table("usuario")]
 public class Usuario
 {
+    //fazer a inicialização para não receber valores nulos ou vazios depois
     [Key] 
     [Column("id")]
     public Guid Id { get; set; } = Guid.NewGuid();
@@ -46,7 +47,7 @@ public class Usuario
     public string? Foto { get; set; }
     
     [Column("aceitou_termos")]
-    public bool? AceitouTermos { get; set; } = false;
+    public bool AceitouTermos { get; set; } = false;
     
     [Column("data_aceite_termos")]
     public DateTime? DataAceiteTermos { get; set; } = DateTime.UtcNow;

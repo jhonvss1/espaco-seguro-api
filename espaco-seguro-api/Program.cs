@@ -17,6 +17,7 @@ using espaco_seguro_api._3___Domain.Services;
 using espaco_seguro_api._3___Domain.Services.Chat;
 using espaco_seguro_api._3___Domain.Services.Postagem.ComentarioPostagem;
 using espaco_seguro_api._3___Domain.Services.Security;
+using espaco_seguro_api._3___Domain.Validacoes;
 using espaco_seguro_api._4___Data;
 using espaco_seguro_api._4___Data.Helpers;
 using espaco_seguro_api._4___Data.Repositories;
@@ -149,6 +150,7 @@ builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<ILoginServiceApp, LoginServiceApp>();
 builder.Services.AddScoped<IPasswordHasher, BcryptPaswordHasher>();
 builder.Services.AddScoped<Helpers>();
+builder.Services.AddScoped<ValidaUsuario>();
 
 
 // ====== Authorization (Policies por permissão) ======

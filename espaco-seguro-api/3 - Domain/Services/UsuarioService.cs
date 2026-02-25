@@ -6,21 +6,21 @@ using espaco_seguro_api._3___Domain.Interfaces;
 using espaco_seguro_api._3___Domain.Interfaces.Repositories;
 using espaco_seguro_api._3___Domain.Interfaces.Services;
 using espaco_seguro_api._3___Domain.Security;
+using espaco_seguro_api._3___Domain.Validacoes;
 
 namespace espaco_seguro_api._3___Domain.Services;
 
-public class UsuarioService(IUsuarioRepository usuarioRepository, IPasswordHasher passwordHasher) : IUsuarioService
+public class UsuarioService(
+    IUsuarioRepository usuarioRepository,
+    IPasswordHasher passwordHasher,
+    ValidaUsuario validaUsuario) : IUsuarioService
 {
     public async Task<Usuario> Criar(Usuario usuario)
     {
-        if((bool)(!usuario.AceitouTermos)!) 
-            throw new DomainValidationException("É necessário aceitar os termos.");
-
-        if (usuario.Cpf.Length != 11)
+        if (!validaUsuario.ValidarUsuario(usuario))
         {
-            throw new DomainValidationException("CPF com mais de 11 caracteres.");
+            throw new DomainValidationException("Não foi possível validar as informações inseridas para criação do usuário");
         }
-        
         return await usuarioRepository.Criar(usuario);
     }
 

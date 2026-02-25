@@ -477,7 +477,7 @@ namespace espaco_seguro_api.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<bool?>("AceitouTermos")
+                    b.Property<bool>("AceitouTermos")
                         .HasColumnType("boolean")
                         .HasColumnName("aceitou_termos");
 

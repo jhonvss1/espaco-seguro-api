@@ -34,10 +34,6 @@ public class UsuarioServiceApp(IUsuarioService usuarioService, IPasswordHasher p
     {
         try
         {
-            if (id != Guid.Empty)
-            {
-                
-            }
             
             var usuarioEntidadeDominio = await usuarioService.ObterPorId(id);
 

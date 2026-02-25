@@ -10,7 +10,7 @@ public class UsuarioRequestVm
     public string? Cpf { get; set; }
     public string? Telefone { get; set; }
     public string? Foto { get; set; }
-    public bool? AceitaTermos { get; set; }
+    public bool AceitaTermos { get; set; }
     public FuncaoEnum Funcao { get; set; } 
     public string Senha { get; set; }
     public string ConfirmarSenha { get; set; }
