@@ -52,18 +52,14 @@ namespace espaco_seguro_api._4___Data.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task<ConteudoCard> Atualizar(ConteudoCard conteudoCard, Guid cardId)
+        public async Task<ConteudoCard> Atualizar(ConteudoCard conteudoCard)
         {
-            var atual = await context.ConteudoCards.FirstOrDefaultAsync(c => c.Id == cardId);
-
-            AtualizarCamposPreenchidos(atual, conteudoCard);
-            
-            context.Update(atual);
+            context.Update(conteudoCard);
             await context.SaveChangesAsync();
-            return atual;
+            return conteudoCard;
         }
 
-        public async Task<ConteudoCard> ObterPorId(Guid id)
+        public async Task<ConteudoCard?> ObterPorId(Guid id)
         {
             var card = await _context.ConteudoCards.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
             return card;
@@ -83,26 +79,7 @@ namespace espaco_seguro_api._4___Data.Repositories
         }
 
 
-        private void AtualizarCamposPreenchidos(ConteudoCard existente, ConteudoCard novo)
-        {
-            if (existente == null)
-                throw new DomainValidationException("Card não existente.");
-
-            if (novo == null)
-                throw new DomainValidationException("Não há informações para serem atualizadas");
-            
-            if(novo.Titulo != null)
-                existente.Titulo = novo.Titulo;
-            
-            if(novo.Corpo!= null)
-                existente.Corpo = novo.Corpo;
-            if(novo.Resumo != null)
-                existente.Resumo = novo.Resumo;
-            if(novo.UrlMidia != null)
-                existente.UrlMidia = novo.UrlMidia;
-            if (novo.Status != null)
-                existente.Status = novo.Status;
-        }
+        
         
     }
 }

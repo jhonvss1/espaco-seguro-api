@@ -86,7 +86,7 @@ namespace espaco_seguro_api._1___Presentation.Controllers
             }
         }
 
-        [HttpPut("atualizar")]
+        [HttpPut("{cardId}")]
         public async Task<ActionResult> Atualizar([FromBody] CardResquestVm cardResquestVm, Guid cardId)
         {
             try
